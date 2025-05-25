@@ -11,6 +11,7 @@
   --terminal-fg: white;
   --terminal-link: #88f;
   --terminal-link-visited: #88f;
+  --red: rgb(255, 0, 0);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +28,7 @@
     --terminal-fg: #e0e0e0;
     --terminal-link: #aaf;
     --terminal-link-visited: #aaf;
+    --red: rgb(155, 0, 0);
   }
 
   .icon.icon-emulator {
@@ -40,6 +42,10 @@
 
 .btn {
   color: var(--text-color) !important;
+}
+
+.btn:hover {
+  color: var(--red) !important;
 }
 
 .card {
