@@ -38,6 +38,10 @@
   }
 }
 
+.card {
+  background: var(--terminal-bg);
+}
+
 .modal-container {
   background-color: var(--bg-color);
 }
