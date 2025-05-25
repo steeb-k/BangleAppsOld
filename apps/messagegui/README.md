@@ -1,4 +1,17 @@
-# Messages app
+# Messages app (Modified)
+
+## Changes and Reasoning
+1. Upon receiving the notification, the scrollable version of the message shows up on the screen by default
+2. As soon as the message is displayed on the screen, it is marked as read
+3. If you scroll to the bottom of the message, it's deleted from the Messages app
+
+I do not check messages beyond their initial notification on my watch. The persistent widget flashing is unnecessary because of this.
+
+Messages will still come to the inbox while the watch is set to Quiet Mode. I am not certain I even care for that behavior, but it
+might work as a decent reminder after I wake up in the morning. We'll see!
+
+Original readme below.
+========================================================================================================================================
 
 Default app to handle the display of messages and message notifications. It allows
 them to be listed, viewed, and responded to.
