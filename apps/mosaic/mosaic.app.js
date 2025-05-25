@@ -26,7 +26,7 @@ let digits = [
 ];
 
 // Day of week abbreviations
-const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 let loadSettings = function() {
   settings = require("Storage").readJSON(SETTINGS_FILE,1)|| {'showWidgets': false, 'theme':'System'};
@@ -77,18 +77,18 @@ let draw = function() {
   g.drawImage(digits[Math.floor(minute/10)], (mid_x-7)*s+o_w, (mid_y+1)*s+o_h, {scale:s});
   g.drawImage(digits[minute % 10], (mid_x-1)*s+o_w, (mid_y+1)*s+o_h, {scale:s});
   
-  // Draw day of week (rotated 90 degrees to the right of time)
+  // Draw day of week (vertical to the right of time)
   g.setFontAlign(0, 0);
   g.setFont("6x8", 2*s);
-  // Save current graphics state
-  g.save();
-  // Move to position and rotate
-  g.translate((mid_x+7)*s+o_w, mid_y*s+o_h);
-  g.rotate(Math.PI/2);
-  // Draw text (centered at 0,0 after rotation)
-  g.drawString(dayOfWeek, 0, 0);
-  // Restore graphics state
-  g.restore();
+  
+  // Calculate position for each character
+  let dayX = (mid_x+5)*s + o_w;
+  let dayY = mid_y*s + o_h - 3*s/2; // Start a bit above center
+  
+  // Draw each character vertically
+  for (let i = 0; i < dayOfWeek.length; i++) {
+    g.drawString(dayOfWeek[i], dayX, dayY + i*2*s);
+  }
 
   queueDraw(timeout);
 }
