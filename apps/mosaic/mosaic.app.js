@@ -79,17 +79,40 @@ let draw = function() {
   
   // Draw day of week (vertical to the right of time)
   g.setFontAlign(0, 0);
-  g.setFont("6x8", 1);
-
+  g.setFont("Vector", 30);  // Scalable vector font, clean and large
   
   // Calculate position for each character
-  let dayX = (mid_x+5)*s + o_w;
-  let dayY = mid_y*s + o_h - 3*s/2; // Start a bit above center
-  
-  // Draw each character vertically
+  let dayX = (mid_x + 7) * s + o_w; // unchanged
+  let lineSpacing = 3 * s;
+  let timeBottom = (mid_y + 1) * s + o_h + 7 * s;
+  let dayY = timeBottom - (dayOfWeek.length * lineSpacing) + lineSpacing / 2;
+
+  // Draw each character vertically with matching time style
   for (let i = 0; i < dayOfWeek.length; i++) {
-    g.drawString(dayOfWeek[i], dayX, dayY + i*2*s);
+    let y = dayY + i * 3 * s;
+    // Draw filled background box
+    g.setColor(theme.bg);
+    g.fillRect(dayX - 15, y - 16, dayX + 12, y + 14); // Adjust box size as needed
+    // Draw character
+    g.setColor(theme.fg);
+    //drawBoldText(dayOfWeek[i], dayX, y);
+    g.drawString(dayOfWeek[i], dayX, y);
   }
+  const boxLeft = dayX - 15;
+  const boxRight = dayX + 12;
+  const boxWidth = boxRight - boxLeft;
+
+
+  let batt = E.getBattery(); // battery %
+  let battTop = dayY - lineSpacing; // position just above the first letter box
+  let battHeight = 10;
+
+  g.setColor(theme.bg);
+  g.fillRect(boxLeft, battTop, boxRight, battTop + battHeight); // battery background
+
+  g.setColor(theme.fg);
+  let battFill = Math.round((batt / 100) * boxWidth);
+  g.fillRect(boxLeft, battTop, boxLeft + battFill, battTop + battHeight); // battery fill
 
   queueDraw(timeout);
 }
