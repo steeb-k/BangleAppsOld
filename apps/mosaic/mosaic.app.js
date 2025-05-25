@@ -102,37 +102,41 @@ let draw = function() {
   const boxRight = dayX + 12;
   const boxWidth = boxRight - boxLeft;
 
-  // --- Calculate battery bar dimensions (before drawing day text) ---
   let batt = E.getBattery(); // battery %
+  batt = Math.max(10, batt); // clamp to 10% minimum for visibility
+
   let batteryGap = 4;
-  let padding = 4; // internal padding for the inner fill bar
+  let padding = 4;
 
-  // Top of bar: a bit above top day letter
-  let batteryTop = dayY - lineSpacing - batteryGap;
+  // Box dimensions
+  let batteryTop = (mid_y - 7) * s + o_h; // top of time digits
+  let batteryBottom = dayY - lineSpacing - batteryGap; // above top of day text
 
-  // Bottom of bar: top of time digits
-  let batteryBottom = (mid_y - 7) * s + o_h;
+  // Ensure correct vertical direction
+  let topY = Math.min(batteryTop, batteryBottom);
+  let bottomY = Math.max(batteryTop, batteryBottom);
+  let batteryHeight = bottomY - topY;
 
-  let batteryHeight = batteryBottom - batteryTop;
-  let innerTop = batteryTop + padding;
-  let innerBottom = batteryBottom - padding;
+  let innerTop = topY + padding;
+  let innerBottom = bottomY - padding;
   let innerHeight = innerBottom - innerTop;
-
-  // Fill height
   let batteryFillHeight = Math.round((batt / 100) * innerHeight);
 
   // Choose battery color
   let fillColor =
-    batt > 75 ? "#0F0" :   // Green
-    batt > 25 ? "#FF0" :   // Yellow
-                "#F00";    // Red
+    batt > 75 ? "#0F0" : // Green
+    batt > 25 ? "#FF0" : // Yellow
+                "#F00";  // Red
 
-  // Draw battery box background
+  // Outer white background
   g.setColor(theme.bg);
-  g.fillRect(boxLeft, batteryTop, boxRight, batteryBottom);
+  g.fillRect(boxLeft, topY, boxRight, bottomY);
 
+  // Border
+  g.setColor(theme.bg);
+  g.drawRect(boxLeft, topY, boxRight, bottomY);
 
-  // Draw inner battery fill bar (bottom-up)
+  // Inner fill (bottom-up)
   g.setColor(fillColor);
   g.fillRect(
     boxLeft + padding,
@@ -140,6 +144,7 @@ let draw = function() {
     boxRight - padding,
     innerBottom
   );
+
 
   queueDraw(timeout);
 }
