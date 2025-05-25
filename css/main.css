@@ -51,7 +51,7 @@
 }
 
 .btn:hover {
-  background-color: var(--red) !important;
+  background-color: var(--terminal-bg) !important;
 }
 
 .card {
