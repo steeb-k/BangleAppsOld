@@ -14,7 +14,7 @@
     "storage": [
       {"name":"mosaic-plus.app.js","url":"mosaic-plus.app.js"},
       {"name":"mosaic-plus.settings.js","url":"mosaic-plus.settings.js"},
-      {"name":"mosaic.img","url":"mosaic.icon.js","evaluate":true}
+      {"name":"mosaic-plus.img","url":"mosaic.icon.js","evaluate":true}
     ],
     "data": [
       {"name":"mosaic-plus.settings.json"}
