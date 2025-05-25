@@ -16,7 +16,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary-color: #c9c9c9;
+    --primary-color: #3a9100;
     --header-bg: #585858;
     --header-text: #ffffff;
     --bg-color: #1e1e1e;
@@ -56,7 +56,7 @@
 .btn {
   background: var(--bg-color) !important;
   color: var(--text-color) !important;
-  border-color: var(--primary-color) !important;
+  border-color: var(--tab-border) !important;
 }
 
 .btn:hover {
