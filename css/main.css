@@ -11,7 +11,7 @@
   --terminal-fg: white;
   --terminal-link: #88f;
   --terminal-link-visited: #88f;
-  --red: rgb(255, 0, 0);
+  --red: rgb(175, 175, 175);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,7 +28,7 @@
     --terminal-fg: #e0e0e0;
     --terminal-link: #aaf;
     --terminal-link-visited: #aaf;
-    --red: rgb(155, 0, 0);
+    --red: rgb(85, 85, 85);
   }
 
   .icon.icon-emulator {
