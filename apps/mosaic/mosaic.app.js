@@ -79,7 +79,8 @@ let draw = function() {
   
   // Draw day of week (vertical to the right of time)
   g.setFontAlign(0, 0);
-  g.setFont("6x8", 2*s);
+  g.setFont("6x8", 1);
+
   
   // Calculate position for each character
   let dayX = (mid_x+5)*s + o_w;
