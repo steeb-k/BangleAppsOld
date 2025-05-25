@@ -237,8 +237,6 @@ function showMusicMessage(msg) {
 function showMessageScroller(msg) {
   cancelReloadTimeout(); // Clear any existing timeout
   active = "scroller";
-  var hasScrolled = false;
-
   var bodyFont = fontBig;
   g.setFont(bodyFont);
   var lines = [];
@@ -280,17 +278,12 @@ function showMessageScroller(msg) {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       showMessage(msg.id, true);
     },
-    scroll: function() {
-      if (!hasScrolled) {
-        msg.new = false; // Mark read after first scroll
-        hasScrolled = true;
-      }
-    },
-    back: function() {
-      if (!hasScrolled) msg.new = false; // Mark read if exited without scrolling
-      showMessage(msg.id, true);
+    scroll : () => {
+      lastScrollTime = Date.now(); // Update last interaction time
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      // Delay timeout reset until scrolling stops
+      scrollTimeout = setTimeout(resetScrollTimeout, 500);
     }
-    
   });
 
   // Set initial timeout (if no scrolling happens)
