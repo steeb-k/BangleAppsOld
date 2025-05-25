@@ -237,17 +237,15 @@ function showMusicMessage(msg) {
 function showMessageScroller(msg) {
   cancelReloadTimeout(); // Clear any existing timeout
   active = "scroller";
-  msg.new = false; // Mark as
-
   var bodyFont = fontBig;
   g.setFont(bodyFont);
   var lines = [];
-  if (msg.title) lines = g.wrapString(msg.title, g.getWidth()-10);
+  if (msg.title) lines = g.wrapString(msg.title, g.getWidth() - 10);
   var titleCnt = lines.length;
-  if (titleCnt) lines.push(""); // add blank line after title
-  lines = lines.concat(g.wrapString(msg.body, g.getWidth()-10),["",/*LANG*/"< Back"]);
+  if (titleCnt) lines.push(""); // Blank line after title
+  lines = lines.concat(g.wrapString(msg.body, g.getWidth() - 10), ["", "< Back"]);
 
-  // Track last scroll time to reset timeout
+  // --- Timeout Control (Re-added) ---
   var lastScrollTime = Date.now();
   var scrollTimeout;
 
@@ -257,41 +255,43 @@ function showMessageScroller(msg) {
       if (settings.unreadTimeout && !unreadTimeout) {
         // Only reset if user hasn't interacted for 2 seconds
         if (Date.now() - lastScrollTime > 2000) {
-          resetReloadTimeout();
+          resetReloadTimeout(); // Restart the auto-return timer
         }
       }
     }, 2000);
   }
+  // --- End Timeout Control ---
 
   E.showScroller({
-    h : g.getFontHeight(),
-    c : lines.length,
-    draw : function(idx, r) {
-      g.setBgColor(idx<titleCnt ? g.theme.bg2 : g.theme.bg)
-        .setColor(idx<titleCnt ? g.theme.fg2 : g.theme.fg)
-        .clearRect(r.x,r.y,r.x+r.w, r.y+r.h);
-      g.setFont(bodyFont).setFontAlign(0,-1).drawString(lines[idx], r.x+r.w/2, r.y);
+    h: g.getFontHeight(),
+    c: lines.length,
+    draw: function(idx, r) {
+      g.setBgColor(idx < titleCnt ? g.theme.bg2 : g.theme.bg)
+        .setColor(idx < titleCnt ? g.theme.fg2 : g.theme.fg)
+        .clearRect(r.x, r.y, r.x + r.w, r.y + r.h);
+      g.setFont(bodyFont).setFontAlign(0, -1).drawString(lines[idx], r.x + r.w / 2, r.y);
     },
     select: function(idx) {
       if (idx >= lines.length - 2) {
-        msg.new = false; // Mark as read
-        returnToMain();  // Exit to message list (not showMessage!)
+        MESSAGES = MESSAGES.filter(m => m.id !== msg.id); // Delete message
+        require("messages").write(MESSAGES);
+        returnToMain();
       }
     },
     back: () => {
-      msg.new = false; // Mark as read
-      returnToMain();  // Return to message list
+      MESSAGES = MESSAGES.filter(m => m.id !== msg.id); // Delete message
+      require("messages").write(MESSAGES);
+      returnToMain();
     },
-    scroll : () => {
+    // --- Re-added Scroll Handler ---
+    scroll: () => {
       lastScrollTime = Date.now(); // Update last interaction time
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      // Delay timeout reset until scrolling stops
-      scrollTimeout = setTimeout(resetScrollTimeout, 500);
+      scrollTimeout = setTimeout(resetScrollTimeout, 500); // Delay timeout reset
     }
   });
 
-  // Set initial timeout (if no scrolling happens)
-  resetScrollTimeout();
+  resetScrollTimeout(); // Initialize the timeout
 }
 
 function showMessageSettings(msg) {
