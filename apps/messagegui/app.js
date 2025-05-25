@@ -235,17 +235,18 @@ function showMusicMessage(msg) {
 }
 
 function showMessageScroller(msg) {
-  cancelReloadTimeout(); // Clear any existing timeout
+  cancelReloadTimeout();
   active = "scroller";
   var bodyFont = fontBig;
   g.setFont(bodyFont);
   var lines = [];
+  
   if (msg.title) lines = g.wrapString(msg.title, g.getWidth() - 10);
   var titleCnt = lines.length;
-  if (titleCnt) lines.push(""); // Blank line after title
+  if (titleCnt) lines.push("");
   lines = lines.concat(g.wrapString(msg.body, g.getWidth() - 10), ["", "< Back"]);
 
-  // --- Timeout Control (Re-added) ---
+  // Timeout Control
   var lastScrollTime = Date.now();
   var scrollTimeout;
 
@@ -253,14 +254,35 @@ function showMessageScroller(msg) {
     if (scrollTimeout) clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       if (settings.unreadTimeout && !unreadTimeout) {
-        // Only reset if user hasn't interacted for 2 seconds
         if (Date.now() - lastScrollTime > 2000) {
-          resetReloadTimeout(); // Restart the auto-return timer
+          resetReloadTimeout();
         }
       }
     }, 2000);
   }
-  // --- End Timeout Control ---
+
+  function deleteAndExit() {
+    print("Deleting message:", msg.id); // Debug
+    // Force proper ID comparison
+    const newMessages = MESSAGES.filter(m => {
+      const match = JSON.stringify(m.id) !== JSON.stringify(msg.id);
+      if (!match) print("Removing:", m.id);
+      return match;
+    });
+    
+    if (newMessages.length !== MESSAGES.length) {
+      MESSAGES = newMessages;
+      try {
+        require("messages").write(MESSAGES);
+        print("Storage updated");
+      } catch (e) {
+        print("Storage error:", e);
+      }
+    } else {
+      print("No matching message found to delete");
+    }
+    returnToMain();
+  }
 
   E.showScroller({
     h: g.getFontHeight(),
@@ -273,25 +295,18 @@ function showMessageScroller(msg) {
     },
     select: function(idx) {
       if (idx >= lines.length - 2) {
-        MESSAGES = MESSAGES.filter(m => m.id !== msg.id); // Delete message
-        require("messages").write(MESSAGES);
-        returnToMain();
+        deleteAndExit();
       }
     },
-    back: () => {
-      MESSAGES = MESSAGES.filter(m => m.id !== msg.id); // Delete message
-      require("messages").write(MESSAGES);
-      returnToMain();
-    },
-    // --- Re-added Scroll Handler ---
+    back: deleteAndExit,
     scroll: () => {
-      lastScrollTime = Date.now(); // Update last interaction time
+      lastScrollTime = Date.now();
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(resetScrollTimeout, 500); // Delay timeout reset
+      scrollTimeout = setTimeout(resetScrollTimeout, 500);
     }
   });
 
-  resetScrollTimeout(); // Initialize the timeout
+  resetScrollTimeout();
 }
 
 function showMessageSettings(msg) {
