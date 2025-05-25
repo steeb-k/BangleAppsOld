@@ -1,6 +1,9 @@
 Bangle.js App Loader (and Apps)
 ================================
 
+# Applications Added or Modified
+To date, the only application I have modified is `messagegui`. I do not intend on trying to upstream it, as it's based entirely on personal preference. 
+
 [![Build Status](https://github.com/espruino/BangleApps/actions/workflows/nodejs.yml/badge.svg)](https://github.com/espruino/BangleApps/actions/workflows/nodejs.yml)
 
 * Try the **release version** at [banglejs.com/apps](https://banglejs.com/apps)
