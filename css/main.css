@@ -38,6 +38,10 @@
   }
 }
 
+.btn {
+  color: var(--text-color)
+}
+
 .card {
   background: var(--terminal-bg);
 }
