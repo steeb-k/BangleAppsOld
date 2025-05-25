@@ -59,7 +59,7 @@
 .btn {
   background: var(--bg-color) !important;
   color: var(--text-color) !important;
-  border-color: var(--tab-border) !important;
+  /*border-color: var(--text-color) !important;*/
 }
 
 .btn:hover {
