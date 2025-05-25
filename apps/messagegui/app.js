@@ -237,6 +237,8 @@ function showMusicMessage(msg) {
 function showMessageScroller(msg) {
   cancelReloadTimeout(); // Clear any existing timeout
   active = "scroller";
+  msg.new = false; // Mark as
+
   var bodyFont = fontBig;
   g.setFont(bodyFont);
   var lines = [];
@@ -274,9 +276,9 @@ function showMessageScroller(msg) {
       if (idx>=lines.length-2)
         showMessage(msg.id, true);
     },
-    back : () => {
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-      showMessage(msg.id, true);
+    back: () => {
+      msg.new = false; // Mark as read
+      returnToMain();  // Return to message list
     },
     scroll : () => {
       lastScrollTime = Date.now(); // Update last interaction time
