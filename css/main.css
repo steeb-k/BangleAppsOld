@@ -41,6 +41,7 @@
 }
 
 .btn {
+  background: var(--bg-color) !important;
   color: var(--text-color) !important;
 }
 
