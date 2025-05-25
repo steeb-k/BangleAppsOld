@@ -40,6 +40,10 @@
   }
 }
 
+.active {
+  background-color: var(--header-bg);
+}
+
 .form-input {
   background-color: var(--terminal-bg) !important;
   color: var(--terminal-fg) !important;
