@@ -25,6 +25,9 @@ let digits = [
   E.toArrayBuffer(atob("BQcB/Gsex+A="))
 ];
 
+// Day of week abbreviations
+const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+
 let loadSettings = function() {
   settings = require("Storage").readJSON(SETTINGS_FILE,1)|| {'showWidgets': false, 'theme':'System'};
 }
@@ -59,15 +62,33 @@ let draw = function() {
       );
     }
   }
-  let t = require("locale").time(new Date(), 1);
+  
+  let now = new Date();
+  let t = require("locale").time(now, 1);
   let hour = parseInt(t.split(":")[0]);
   let minute = parseInt(t.split(":")[1]);
+  let dayOfWeek = days[now.getDay()];
+  
+  // Draw time (shifted left)
   g.setBgColor(theme.fg);
   g.setColor(theme.bg);
-  g.drawImage(digits[Math.floor(hour/10)], (mid_x-5)*s+o_w, (mid_y-7)*s+o_h, {scale:s});
-  g.drawImage(digits[hour % 10], (mid_x+1)*s+o_w, (mid_y-7)*s+o_h, {scale:s});
-  g.drawImage(digits[Math.floor(minute/10)], (mid_x-5)*s+o_w, (mid_y+1)*s+o_h, {scale:s});
-  g.drawImage(digits[minute % 10], (mid_x+1)*s+o_w, (mid_y+1)*s+o_h, {scale:s});
+  g.drawImage(digits[Math.floor(hour/10)], (mid_x-7)*s+o_w, (mid_y-7)*s+o_h, {scale:s});
+  g.drawImage(digits[hour % 10], (mid_x-1)*s+o_w, (mid_y-7)*s+o_h, {scale:s});
+  g.drawImage(digits[Math.floor(minute/10)], (mid_x-7)*s+o_w, (mid_y+1)*s+o_h, {scale:s});
+  g.drawImage(digits[minute % 10], (mid_x-1)*s+o_w, (mid_y+1)*s+o_h, {scale:s});
+  
+  // Draw day of week (rotated 90 degrees to the right of time)
+  g.setFontAlign(0, 0);
+  g.setFont("6x8", 2*s);
+  // Save current graphics state
+  g.save();
+  // Move to position and rotate
+  g.translate((mid_x+7)*s+o_w, mid_y*s+o_h);
+  g.rotate(Math.PI/2);
+  // Draw text (centered at 0,0 after rotation)
+  g.drawString(dayOfWeek, 0, 0);
+  // Restore graphics state
+  g.restore();
 
   queueDraw(timeout);
 }
