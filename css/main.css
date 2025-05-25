@@ -16,8 +16,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --primary-color: #7a78e6;
-    --header-bg: #e0e0e0;
-    --header-text: #333;
+    --header-bg: #585858;
+    --header-text: #ffffff;
     --bg-color: #1e1e1e;
     --text-color: #e0e0e0;
     --tile-border: #444;
