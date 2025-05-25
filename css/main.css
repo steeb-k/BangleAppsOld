@@ -3,6 +3,7 @@
   --header-bg: #5755d9;
   --header-text: #fff;
   --bg-color: #fff;
+  --bg-color-transparent: rgba(255, 255, 255, 0.5);
   --text-color: #333;
   --tile-border: #dadee4;
   --tab-border: #dadee4;
@@ -20,6 +21,7 @@
     --header-bg: #585858;
     --header-text: #ffffff;
     --bg-color: #1e1e1e;
+    --bg-color-transparent: rgba(0, 0, 0, 0.5);
     --text-color: #e0e0e0;
     --tile-border: #444;
     --tab-border: #444;
@@ -41,7 +43,7 @@
 }
 
 .menu {
-  background-color: var(--bg-color) !important;
+  background-color: var(--bg-color-transparent) !important;
   border: .05rem dotted var(--terminal-fg) !important;
 }
 
