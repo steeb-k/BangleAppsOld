@@ -235,7 +235,7 @@ function showMusicMessage(msg) {
 }
 
 function showMessageScroller(msg) {
-  cancelReloadTimeout();
+  cancelReloadTimeout(); // Clear any existing timeout
   active = "scroller";
   var bodyFont = fontBig;
   g.setFont(bodyFont);
@@ -244,22 +244,50 @@ function showMessageScroller(msg) {
   var titleCnt = lines.length;
   if (titleCnt) lines.push(""); // add blank line after title
   lines = lines.concat(g.wrapString(msg.body, g.getWidth()-10),["",/*LANG*/"< Back"]);
+
+  // Track last scroll time to reset timeout
+  var lastScrollTime = Date.now();
+  var scrollTimeout;
+
+  function resetScrollTimeout() {
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      if (settings.unreadTimeout && !unreadTimeout) {
+        // Only reset if user hasn't interacted for 2 seconds
+        if (Date.now() - lastScrollTime > 2000) {
+          resetReloadTimeout();
+        }
+      }
+    }, 2000);
+  }
+
   E.showScroller({
-    h : g.getFontHeight(), // height of each menu item in pixels
-    c : lines.length, // number of menu items
-    // a function to draw a menu item
+    h : g.getFontHeight(),
+    c : lines.length,
     draw : function(idx, r) {
-      // FIXME: in 2v13 onwards, clearRect(r) will work fine. There's a bug in 2v12
-      g.setBgColor(idx<titleCnt ? g.theme.bg2 : g.theme.bg).
-        setColor(idx<titleCnt ? g.theme.fg2 : g.theme.fg).
-        clearRect(r.x,r.y,r.x+r.w, r.y+r.h);
+      g.setBgColor(idx<titleCnt ? g.theme.bg2 : g.theme.bg)
+        .setColor(idx<titleCnt ? g.theme.fg2 : g.theme.fg)
+        .clearRect(r.x,r.y,r.x+r.w, r.y+r.h);
       g.setFont(bodyFont).setFontAlign(0,-1).drawString(lines[idx], r.x+r.w/2, r.y);
-    }, select : function(idx) {
+    },
+    select : function(idx) {
       if (idx>=lines.length-2)
         showMessage(msg.id, true);
     },
-    back : () => showMessage(msg.id, true)
+    back : () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      showMessage(msg.id, true);
+    },
+    scroll : () => {
+      lastScrollTime = Date.now(); // Update last interaction time
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      // Delay timeout reset until scrolling stops
+      scrollTimeout = setTimeout(resetScrollTimeout, 500);
+    }
   });
+
+  // Set initial timeout (if no scrolling happens)
+  resetScrollTimeout();
 }
 
 function showMessageSettings(msg) {
@@ -346,118 +374,10 @@ function showMessage(msgid, persist) {
     cancelReloadTimeout(); // don't auto-reload to clock now
     return showMapMessage(msg);
   }
-  active = "message";
-  // Normal text message display
-  var title=msg.title, titleFont = fontLarge, lines;
-  var body=msg.body, bodyFont = fontLarge;
-  // If no body, use the title text instead...
-  if (body===undefined) {
-    body = title;
-    title = undefined;
-  }
-  if (title) {
-    var w = g.getWidth()-48;
-    if (g.setFont(titleFont).stringWidth(title) > w) {
-      titleFont = fontBig;
-      if (settings.fontSize!=1 && g.setFont(titleFont).stringWidth(title) > w)
-        titleFont = fontMedium;
-    }
-    if (g.setFont(titleFont).stringWidth(title) > w) {
-      lines = g.wrapString(title, w);
-      title = (lines.length>2) ? lines.slice(0,2).join("\n")+"..." : lines.join("\n");
-    }
-  }
-  if (body) { // Try and find a font that fits...
-    var w = g.getWidth()-2, h = Bangle.appRect.h-60;
-    if (g.setFont(bodyFont).wrapString(body, w).length*g.getFontHeight() > h) {
-      bodyFont = fontBig;
-      if (settings.fontSize!=1 && g.setFont(bodyFont).wrapString(body, w).length*g.getFontHeight() > h) {
-        bodyFont = fontMedium;
-      }
-    }
-    // Now crop, given whatever font we have available
-    lines = g.setFont(bodyFont).wrapString(body, w);
-    var maxLines = Math.floor(h / g.getFontHeight());
-    if (lines.length>maxLines) // if too long, wrap with a bit less spae so we have room for '...'
-      body = g.setFont(bodyFont).wrapString(body, w-10).slice(0,maxLines).join("\n")+"...";
-    else
-      body = lines.join("\n");
-  }
-  function goBack() {
-    layout = undefined;
-    msg.new = false; // read mail
-    cancelReloadTimeout(); // don't auto-reload to clock now
-    returnToClockIfEmpty();
-  }
-  var negHandler,posHandler,footer = [ ];
-  if (msg.negative) {
-    negHandler = ()=>{
-      msg.new = false;
-      cancelReloadTimeout(); // don't auto-reload to clock now
-      Bangle.messageResponse(msg,false);
-      returnToCheckMessages();
-    }; footer.push({type:"img",src:atob("PhAB4A8AAAAAAAPAfAMAAAAAD4PwHAAAAAA/H4DwAAAAAH78B8AAAAAA/+A/AAAAAAH/Af//////w/gP//////8P4D///////H/Af//////z/4D8AAAAAB+/AfAAAAAA/H4DwAAAAAPg/AcAAAAADwHwDAAAAAA4A8AAAAAAAA=="),col:"#f00",cb:negHandler});
-  }
-  footer.push({fillx:1}); // push images to left/right
-  if (msg.reply && reply) {
-    posHandler = ()=>{
-      replying = true;
-      msg.new = false;
-      cancelReloadTimeout(); // don't auto-reload to clock now
-      reply.reply({msg: msg})
-        .then(result => {
-          Bluetooth.println(JSON.stringify(result));
-          replying = false;
-          layout.render();
-          returnToCheckMessages();
-        })
-        .catch(() => {
-          replying = false;
-          layout.render();
-          showMessage(msg.id);
-        });
-    }; footer.push({type:"img",src:atob("QRABAAAAAAAH//+AAAAABgP//8AAAAADgf//4AAAAAHg4ABwAAAAAPh8APgAAAAAfj+B////////geHv///////hf+f///////GPw///////8cGBwAAAAAPx/gDgAAAAAfD/gHAAAAAA8DngOAAAAABwDHP8AAAAADACGf4AAAAAAAAM/w=="),col:"#0f0", cb:posHandler});
-  }
-  else if (msg.positive) {
-    posHandler = ()=>{
-      msg.new = false;
-      cancelReloadTimeout(); // don't auto-reload to clock now
-      Bangle.messageResponse(msg,true);
-      returnToCheckMessages();
-    }; footer.push({type:"img",src:atob("QRABAAAAAAAAAAOAAAAABgAAA8AAAAADgAAD4AAAAAHgAAPgAAAAAPgAA+AAAAAAfgAD4///////gAPh///////gA+D///////AD4H//////8cPgAAAAAAPw8+AAAAAAAfB/4AAAAAAA8B/gAAAAAABwB+AAAAAAADAB4AAAAAAAAABgAA=="),col:"#0f0",cb:posHandler});
-  }
-
-  layout = new Layout({ type:"v", c: [
-    {type:"h", fillx:1, bgCol:g.theme.bg2, col: g.theme.fg2,  c: [
-      { type:"v", fillx:1, c: [
-        {type:"txt", font:fontSmall, label:msg.src||/*LANG*/"Message", bgCol:g.theme.bg2, col: g.theme.fg2, fillx:1, pad:2, halign:1 },
-        title?{type:"txt", font:titleFont, label:title, bgCol:g.theme.bg2, col: g.theme.fg2, fillx:1, pad:2 }:{},
-      ]},
-      { type:"btn",
-        src:require("messageicons").getImage(msg),
-        col:require("messageicons").getColor(msg, {settings, default:g.theme.fg2}),
-        pad: 3, cb:()=>{
-          cancelReloadTimeout(); // don't auto-reload to clock now
-          showMessageSettings(msg);
-        }
-      },
-    ]},
-    {type:"txt", font:bodyFont, label:body, fillx:1, filly:1, pad:2, cb:()=>{
-      // allow tapping to show a larger version
-      showMessageScroller(msg);
-    } },
-    {type:"h",fillx:1, c: footer}
-  ]},{back:goBack});
-
-  Bangle.swipeHandler = (lr,ud) => {
-    if (lr>0 && posHandler) posHandler();
-    if (lr<0 && negHandler) negHandler();
-    if (ud>0 && idx<MESSAGES.length-1) showMessage(MESSAGES[idx+1].id, true);
-    if (ud<0 && idx>0) showMessage(MESSAGES[idx-1].id, true);
-  };
-  Bangle.on("swipe", Bangle.swipeHandler);
-  g.reset().clearRect(Bangle.appRect);
-  layout.render();
+  
+  // MODIFICATION: Skip the summary view and go straight to scroller
+  showMessageScroller(msg);
+  return;
 }
 
 
