@@ -1,22 +1,22 @@
 {
-    "id":"mosaic",
-    "name":"Mosaic Clock",
-    "shortName": "Mosaic Clock",
+    "id":"mosaic-plus",
+    "name":"Mosaic Clock +",
+    "shortName": "Mosaic Clock +",
     "version": "0.049",
-    "description": "A fabulously colourful clock",
+    "description": "A fabulously colourful clock - plus weekday and battery bar.",
     "readme": "README.md",
-    "icon":"mosaic.png",
+    "icon":"mosaic-plus.png",
     "screenshots": [{"url":"mosaic-scr1.png"},{"url":"mosaic-scr2.png"}],
     "type": "clock",
     "tags": "clock",
-    "supports": ["BANGLEJS", "BANGLEJS2"],
+    "supports": ["BANGLEJS2"],
     "allow_emulator": true,
     "storage": [
-      {"name":"mosaic.app.js","url":"mosaic.app.js"},
-      {"name":"mosaic.settings.js","url":"mosaic.settings.js"},
+      {"name":"mosaic-plus.app.js","url":"mosaic-plus.app.js"},
+      {"name":"mosaic-plus.settings.js","url":"mosaic-plus.settings.js"},
       {"name":"mosaic.img","url":"mosaic.icon.js","evaluate":true}
     ],
     "data": [
-      {"name":"mosaic.settings.json"}
+      {"name":"mosaic-plus.settings.json"}
     ]
   }
