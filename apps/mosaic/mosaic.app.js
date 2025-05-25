@@ -102,17 +102,50 @@ let draw = function() {
   const boxRight = dayX + 12;
   const boxWidth = boxRight - boxLeft;
 
-
+  // --- Calculate battery bar dimensions (before drawing day text) ---
   let batt = E.getBattery(); // battery %
-  let battTop = dayY - lineSpacing; // position just above the first letter box
-  let battHeight = 10;
+  let batteryGap = 4;
+  let padding = 4; // internal padding for the inner fill bar
 
-  g.setColor(theme.bg);
-  g.fillRect(boxLeft, battTop, boxRight, battTop + battHeight); // battery background
+  // Top of bar: a bit above top day letter
+  let batteryTop = dayY - lineSpacing - batteryGap;
 
+  // Bottom of bar: top of time digits
+  let batteryBottom = (mid_y - 7) * s + o_h;
+
+  let batteryHeight = batteryBottom - batteryTop;
+  let innerTop = batteryTop + padding;
+  let innerBottom = batteryBottom - padding;
+  let innerHeight = innerBottom - innerTop;
+
+  // Fill height
+  let batteryFillHeight = Math.round((batt / 100) * innerHeight);
+
+  // Choose battery color
+  let fillColor =
+    batt > 75 ? "#0F0" :   // Green
+    batt > 25 ? "#FF0" :   // Yellow
+                "#F00";    // Red
+
+  // Draw battery box (white bg behind everything)
+  g.setColor("#FFF");
+  g.fillRect(boxLeft, batteryTop, boxRight, batteryBottom);
+
+  // Draw border
   g.setColor(theme.fg);
-  let battFill = Math.round((batt / 100) * boxWidth);
-  g.fillRect(boxLeft, battTop, boxLeft + battFill, battTop + battHeight); // battery fill
+  g.drawRect(boxLeft, batteryTop, boxRight, batteryBottom);
+
+  // Draw inner battery fill bar (bottom-up)
+  g.setColor(fillColor);
+  g.fillRect(
+    boxLeft + padding,
+    innerBottom - batteryFillHeight,
+    boxRight - padding,
+    innerBottom
+  );
+
+console.log("batt:", batt, "Top:", batteryTop, "Bottom:", batteryBottom, "Fill:", batteryFillHeight);
+
 
   queueDraw(timeout);
 }
