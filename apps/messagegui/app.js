@@ -13,13 +13,9 @@
 /* For example for maps:
 
 // a message
-require("messages").pushMessage({"t":"add","id":1575479849,"src":"WhatsApp","title":"My Friend","body":"Hey! How's everything going?",reply:1,negative:1})
-require("messages").pushMessage({"t":"add","id":1575479849,"src":"Skype","title":"My Friend","body":"Hey! How's everything going? This is a really really long message that is really so super long you'll have to scroll it lots and lots",positive:1,negative:1})
-require("messages").pushMessage({"t":"add","id":23232,"src":"Skype","title":"Mr. Bobby McBobFace","body":"Boopedy-boop",positive:1,negative:1})
-require("messages").pushMessage({"t":"add","id":23233,"src":"Skype","title":"Thyttan test","body":"Nummerplåtsbelysning trodo",positive:1,negative:1})
-require("messages").pushMessage({"t":"add","id":23234,"src":"Skype","title":"Thyttan test 2","body":"Nummerplåtsbelysning trodo Nummerplåtsbelysning trodo Nummerplåtsbelysning trodo Nummerplåtsbelysning trodo Nummerplåtsbelysning trodo Nummerplåtsbelysning trodo",positive:1,negative:1})
+require("messages").pushMessage({"t":"add","id":1575479849,"src":"Skype","title":"My Friend","body":"Hey! How's everything going?",positive:1,negative:1})
 // maps
-GB({t:"nav",src:"maps",title:"Navigation",instr:"High St towards Tollgate Rd",distance:"966m",action:"continue",eta:"08:39"})
+GB({t:"nav",src:"maps",title:"Navigation",instr:"High St towards Tollgate Rd",distance:"966yd",action:"continue",eta:"08:39"})
 GB({t:"nav",src:"maps",title:"Navigation",instr:"High St",distance:"12km",action:"left_slight",eta:"08:39"})
 GB({t:"nav",src:"maps",title:"Navigation",instr:"Main St / I-29 ALT / Centerpoint Dr",distance:12345,action:"left_slight",eta:"08:39"})
 // call
@@ -91,35 +87,6 @@ function saveMessages() {
 }
 E.on("kill", saveMessages);
 
-/* Listens to drag events to allow the user to swipe up/down to change message on Bangle.js 2
-returns dragHandler which should then be removed with Bangle.removeListener("drah", dragHandler); on exit */
-function addDragHandlerToChangeMessage(idx, scroller) {
-  // save the scroll pos when finger pressed
-  let lastTouched=false, lastScrollPos=0, scrollY=0;
-  let dragHandler = (e) => {
-    let scrollPos = scroller?scroller.scroll:0;
-    if (e.b) {
-      if (!lastTouched) lastScrollPos = scrollPos;
-      scrollY += e.dy;
-    }
-    lastTouched = e.b;
-    // swipe up down to prev/next but ONLY when finger released and if we're already at the top/bottom => scroller hasn't moved
-    if (!e.b && scrollPos==lastScrollPos) {
-      if (scrollY<-50 && idx<MESSAGES.length-1) {
-        Bangle.buzz(30);
-        showMessage(MESSAGES[idx+1].id, true);
-      }
-      if (scrollY>50 && idx>0) {
-        Bangle.buzz(30);
-        showMessage(MESSAGES[idx-1].id, true);
-      }
-      scrollY = 0;
-    }
-  };
-  Bangle.on("drag", dragHandler);
-  return dragHandler;
-}
-
 function showMapMessage(msg) {
   active = "map";
   require("messages").stopBuzz(); // stop repeated buzzing while the map is showing
@@ -162,28 +129,26 @@ function showMapMessage(msg) {
     street?{type:"h", bgCol:g.theme.bg2, col: g.theme.fg2,  fillx:1, c: [
       {type:"txt", font:fontSmall, label:"Towards" },
       {type:"txt", font:fontLarge, label:street }
-    ]}:{type:""},
+    ]}:{},
     {type:"h",fillx:1, filly:1, c: [
-      img?{type:"img",src:atob(img), scale:2, pad:6}:{type:""},
+      img?{type:"img",src:atob(img), scale:2, pad:6}:{},
       {type:"v", fillx:1, c: [
         {type:"txt", font:fontVLarge, label:distance||"" }
       ]},
     ]},
     {type:"txt", font:fontMedium, label:msg.eta?`ETA ${msg.eta}`:"" }
-  ]}, { back : function() { // mark as not new and return to menu
+  ]});
+  g.reset().clearRect(Bangle.appRect);
+  layout.render();
+  function back() { // mark as not new and return to menu
     msg.new = false;
     layout = undefined;
     checkMessages({clockIfNoMsg:1,clockIfAllRead:1,ignoreUnread:settings.ignoreUnread,openMusic:0});
-  }, remove : function() {
-    Bangle.removeListener("drag", dragHandler);
-  }});
-  g.reset().clearRect(Bangle.appRect);
-  layout.render();
-  // handle up/down to drag to new message
-  let dragHandler = addDragHandlerToChangeMessage(MESSAGES.findIndex(m=>m==msg));
+  }
+  Bangle.setUI({mode:"updown", back: back}, back); // any input takes us back
 }
 
-
+let updateLabelsInterval;
 
 function showMusicMessage(msg) {
   active = "music";
@@ -198,7 +163,6 @@ function showMusicMessage(msg) {
   var trackName = '';
   var artistName = '';
   var albumName = '';
-  var updateLabelsInterval;
 
   function fmtTime(s) {
     var m = Math.floor(s/60);
@@ -210,10 +174,8 @@ function showMusicMessage(msg) {
     return text.substr(offset, sliceLength).padEnd(maxLen, " ");
   }
   function unload() {
-    if (updateLabelsInterval)
-      clearInterval(updateLabelsInterval);
+    clearInterval(updateLabelsInterval);
     updateLabelsInterval = undefined;
-    Bangle.removeListener("drag", dragHandler);
   }
   function back() {
     unload();
@@ -259,13 +221,9 @@ function showMusicMessage(msg) {
       {type:"btn", pad:8, label:atob("ABISgQDAAfgAf4Af8Af/Af/gf/wf/8f/+f/+f/8f/wf/gf/Af8Af4AfgAfAAcA=="), cb:()=>Bangle.musicControl("next")}, // next
     ]}:{},
     {type:"txt", font:"6x8:2", label:msg.dur?fmtTime(msg.dur):"--:--" }
-  ]}, { back : back, remove : unload
-  });
+  ]}, { back : back });
   g.reset().clearRect(Bangle.appRect);
   layout.render();
-
-  // handle up/down to drag to new message
-  let dragHandler = addDragHandlerToChangeMessage(MESSAGES.findIndex(m=>m==msg));
 
   updateLabelsInterval = setInterval(function() {
     updateLabels();
@@ -276,6 +234,62 @@ function showMusicMessage(msg) {
   }, 400);
 }
 
+function showMessageScroller(msg) {
+  cancelReloadTimeout(); // Clear any existing timeout
+  active = "scroller";
+  var bodyFont = fontBig;
+  g.setFont(bodyFont);
+  var lines = [];
+  if (msg.title) lines = g.wrapString(msg.title, g.getWidth()-10);
+  var titleCnt = lines.length;
+  if (titleCnt) lines.push(""); // add blank line after title
+  lines = lines.concat(g.wrapString(msg.body, g.getWidth()-10),["",/*LANG*/"< Back"]);
+
+  // Track last scroll time to reset timeout
+  var lastScrollTime = Date.now();
+  var scrollTimeout;
+
+  function resetScrollTimeout() {
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      if (settings.unreadTimeout && !unreadTimeout) {
+        // Only reset if user hasn't interacted for 2 seconds
+        if (Date.now() - lastScrollTime > 2000) {
+          resetReloadTimeout();
+        }
+      }
+    }, 2000);
+  }
+
+  E.showScroller({
+    h : g.getFontHeight(),
+    c : lines.length,
+    draw : function(idx, r) {
+      g.setBgColor(idx<titleCnt ? g.theme.bg2 : g.theme.bg)
+        .setColor(idx<titleCnt ? g.theme.fg2 : g.theme.fg)
+        .clearRect(r.x,r.y,r.x+r.w, r.y+r.h);
+      g.setFont(bodyFont).setFontAlign(0,-1).drawString(lines[idx], r.x+r.w/2, r.y);
+    },
+    select : function(idx) {
+      if (idx>=lines.length-2)
+        showMessage(msg.id, true);
+    },
+    back : () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      showMessage(msg.id, true);
+    },
+    scroll : () => {
+      lastScrollTime = Date.now(); // Update last interaction time
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      // Delay timeout reset until scrolling stops
+      scrollTimeout = setTimeout(resetScrollTimeout, 500);
+    }
+  });
+
+  // Set initial timeout (if no scrolling happens)
+  resetScrollTimeout();
+}
+
 function showMessageSettings(msg) {
   active = "settings";
   var menu = {"":{
@@ -284,12 +298,10 @@ function showMessageSettings(msg) {
     },
   };
 
-  /* Bangle.js 1 can't press a button to go back from
-  showMessage to the message list, so add the option here */
-  if (process.env.BOARD=="BANGLEJS")
-    menu[/*LANG*/"Message List"] = () => { returnToMain(); };
+  if (msg.id!="music")
+    menu[/*LANG*/"View Message"] = () => showMessageScroller(msg);
 
-  if (msg.reply && reply)
+  if (msg.reply && reply) {
     menu[/*LANG*/"Reply"] = () => {
       replying = true;
       reply.reply({msg: msg})
@@ -303,11 +315,14 @@ function showMessageSettings(msg) {
           showMessage(msg.id);
         });
     };
+  }
 
-  menu[/*LANG*/"Delete"] = () => {
-    MESSAGES = MESSAGES.filter(m=>m.id!=msg.id);
-    returnToMain();
-  };
+  menu = Object.assign(menu, {
+    /*LANG*/"Delete" : () => {
+      MESSAGES = MESSAGES.filter(m=>m.id!=msg.id);
+      returnToMain();
+    },
+  });
 
   if (Bangle.messageIgnore && msg.src)
     menu[/*LANG*/"Ignore"] = () => {
@@ -345,7 +360,11 @@ function showMessage(msgid, persist) {
   if (replying) { return; }
   if(!persist) resetReloadTimeout();
   let idx = MESSAGES.findIndex(m=>m.id==msgid);
-  let msg = MESSAGES[idx];
+  var msg = MESSAGES[idx];
+  if (updateLabelsInterval) {
+    clearInterval(updateLabelsInterval);
+    updateLabelsInterval=undefined;
+  }
   if (!msg) return returnToClockIfEmpty(); // go home if no message found
   if (msg.id=="music") {
     cancelReloadTimeout(); // don't auto-reload to clock now
@@ -355,153 +374,10 @@ function showMessage(msgid, persist) {
     cancelReloadTimeout(); // don't auto-reload to clock now
     return showMapMessage(msg);
   }
-  active = "message";
-  // Normal text message display
-  let src=msg.src||/*LANG*/"Message", srcFont = fontSmall;
-  let title=msg.title, titleFont = fontLarge, lines;
-  let body=msg.body, bodyFont = fontLarge;
-  // If no body, use the title text instead...
-  if (body===undefined) {
-    body = title;
-    title = undefined;
-  }
-  if (g.setFont(srcFont).stringWidth(src) > g.getWidth()-52)
-    srcFont = "4x6";
-  if (title) {
-    let w = g.getWidth()-52;
-    if (g.setFont(titleFont).stringWidth(title) > w) {
-      titleFont = fontBig;
-      if (settings.fontSize!=1 && g.setFont(titleFont).stringWidth(title) > w)
-        titleFont = fontMedium;
-    }
-    if (g.setFont(titleFont).stringWidth(title) > w) {
-      lines = g.wrapString(title, w);
-      title = (lines.length>2) ? lines.slice(0,2).join("\n")+"..." : lines.join("\n");
-    }
-  }
-  if (body) { // Try and find a font that fits...
-    let w = g.getWidth()-2, h = Bangle.appRect.h-60;
-    if (g.setFont(bodyFont).wrapString(body, w).length*g.getFontHeight() > h) {
-      bodyFont = fontBig;
-      if (settings.fontSize!=1 && g.setFont(bodyFont).wrapString(body, w).length*g.getFontHeight() > h) {
-        bodyFont = fontMedium;
-      }
-    }
-    lines = g.setFont(bodyFont).wrapString(body, w);
-    if (lines.length<3)
-      lines.unshift(""); // if less lines, pad them out a bit at the top!
-  }
-  let negHandler,posHandler,rowLeftDraw,rowRightDraw;
-  if (msg.negative) {
-    negHandler = ()=>{
-      msg.new = false;
-      cancelReloadTimeout(); // don't auto-reload to clock now
-      Bangle.messageResponse(msg,false);
-      returnToCheckMessages();
-    };
-    rowLeftDraw = function(r) {g.setColor("#f00").drawImage(atob("PhAB4A8AAAAAAAPAfAMAAAAAD4PwHAAAAAA/H4DwAAAAAH78B8AAAAAA/+A/AAAAAAH/Af//////w/gP//////8P4D///////H/Af//////z/4D8AAAAAB+/AfAAAAAA/H4DwAAAAAPg/AcAAAAADwHwDAAAAAA4A8AAAAAAAA=="),r.x+2,r.y+2);};
-  }
-  if (msg.reply && reply) {
-    posHandler = ()=>{
-      replying = true;
-      msg.new = false;
-      cancelReloadTimeout(); // don't auto-reload to clock now
-      reply.reply({msg: msg})
-        .then(result => {
-          Bluetooth.println(JSON.stringify(result));
-          replying = false;
-          returnToCheckMessages();
-        })
-        .catch(() => {
-          replying = false;
-          showMessage(msg.id);
-        });
-    };
-    rowRightDraw = function(r) {g.setColor("#0f0").drawImage(atob("QRABAAAAAAAH//+AAAAABgP//8AAAAADgf//4AAAAAHg4ABwAAAAAPh8APgAAAAAfj+B////////geHv///////hf+f///////GPw///////8cGBwAAAAAPx/gDgAAAAAfD/gHAAAAAA8DngOAAAAABwDHP8AAAAADACGf4AAAAAAAAM/w=="),r.x+r.w-67,r.y+2);};
-  } else if (msg.positive) {
-    posHandler = ()=>{
-      msg.new = false;
-      cancelReloadTimeout(); // don't auto-reload to clock now
-      Bangle.messageResponse(msg,true);
-      returnToCheckMessages();
-    };
-    rowRightDraw = function(r) {g.setColor("#0f0").drawImage(atob("QRABAAAAAAAAAAOAAAAABgAAA8AAAAADgAAD4AAAAAHgAAPgAAAAAPgAA+AAAAAAfgAD4///////gAPh///////gA+D///////AD4H//////8cPgAAAAAAPw8+AAAAAAAfB/4AAAAAAA8B/gAAAAAABwB+AAAAAAADAB4AAAAAAAAABgAA=="),r.x+r.w-64,r.y+2);};
-  }
-  let fontHeight = g.setFont(bodyFont).getFontHeight();
-  let lineHeight = (fontHeight>25)?fontHeight:25;
-  if (title.includes("\n")) lineHeight=25; // ensure enough room for 2 lines of title in header
-  let linesPerRow = 2;
-  if (fontHeight<17) {
-    lineHeight = 16;
-    linesPerRow = 3;
-  }
-  let rowHeight = lineHeight*linesPerRow;
-  let textLineOffset = -(linesPerRow + ((rowLeftDraw||rowRightDraw)?1:0));
-  let msgIcon = require("messageicons").getImage(msg);
-  let msgCol = require("messageicons").getColor(msg, {settings, default:g.theme.fg2});
-  Bangle.setUI(); // force last UI to be removed (will call require("widget_utils").show(); if last displaying a message)
-  if (!settings.showWidgets) require("widget_utils").hide();
-  let scroller = E.showScroller({
-    h : rowHeight, // height of each menu item in pixels
-    c : Math.ceil((lines.length-textLineOffset) / linesPerRow), // number of menu items
-    // a function to draw a menu item
-    draw : function(idx, r) { "ram";
-      if (idx) { // message body
-        let lidx = idx*linesPerRow+textLineOffset;
-        g.setBgColor(g.theme.bg).setColor(g.theme.fg).clearRect(r.x,r.y,r.x+r.w, r.y+r.h);
-        g.setFont(bodyFont).setFontAlign(0,-1).drawString(lines[lidx++]||"", r.x+r.w/2, r.y).drawString(lines[lidx++]||"", r.x+r.w/2, r.y+lineHeight);
-        if (linesPerRow==3) g.drawString(lines[lidx++]||"", r.x+r.w/2, r.y+lineHeight*2);
-        if (idx!=1) return;
-        if (rowLeftDraw) rowLeftDraw(r);
-        if (rowRightDraw) rowRightDraw(r);
-      } else { // idx==0 => header
-        g.setBgColor(g.theme.bg2).setColor(g.theme.fg).clearRect(r.x,r.y,r.x+r.w, r.y+r.h);
-        if (!settings.showWidgets && Bangle.isLocked()) g.drawImage(atob("DhABH+D/wwMMDDAwwMf/v//4f+H/h/8//P/z///f/g=="), r.x+1,r.y+4); // locked symbol
-        var mid = (r.w-48)/2;
-        g.setColor(g.theme.fg2).setFont(srcFont).setFontAlign(0,-1).drawString(src, mid, r.y+2);
-        let srcHeight = g.getFontHeight();
-        g.setFont(titleFont).setFontAlign(0,0).drawString(title, mid, r.y+ (r.h+srcHeight+2)/2);
-        //g.setColor(g.theme.bgH).fillRect({x:r.x+r.w-47, y:r.y+3, w:44, h:44, r:6});
-        g.setColor(msgCol).drawImage(msgIcon, r.x+r.w-24, r.y + rowHeight/2, {rotate:0/*center*/});
-      }
-    }, select : function(idx) {
-      if (idx==0) { // the title
-        cancelReloadTimeout(); // don't auto-reload to clock now
-        showMessageSettings(msg);
-      }
-    },
-    remove : function() {
-      Bangle.removeListener("drag", dragHandler);
-      Bangle.removeListener("swipe", swipeHandler);
-      Bangle.removeListener("lock", lockHandler);
-      if (!settings.showWidgets) require("widget_utils").show();
-    },
-    back : function() {
-      msg.new = false; // read mail
-      cancelReloadTimeout(); // don't auto-reload to clock now
-      returnToClockIfEmpty();
-    }
-  });
-
-  let dragHandler = addDragHandlerToChangeMessage(idx, scroller);
-  // handle swipes
-  let swipeHandler = (lr,ud) => {
-    // left/right accept/reject
-    if (lr>0 && posHandler) {
-      Bangle.buzz(30);
-      posHandler();
-    }
-    if (lr<0 && negHandler) {
-      Bangle.buzz(30);
-      negHandler();
-    }
-    /* handle up/down in drag handler because we want to
-    move message only when the finger is released, or subsequent
-    finger movement will end up dragging the new message */
-  };
-  Bangle.on("swipe", swipeHandler);
-  let lockHandler = () => scroller.draw();
-  Bangle.on("lock",lockHandler); // redraw when we lock/unlock
+  
+  // MODIFICATION: Skip the summary view and go straight to scroller
+  showMessageScroller(msg);
+  return;
 }
 
 
