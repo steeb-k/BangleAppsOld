@@ -40,7 +40,7 @@
   }
 }
 
-.active {
+.chip.active {
   background-color: var(--header-bg);
 }
 
