@@ -50,6 +50,10 @@
   color: var(--text-color)
 }
 
+.card-title {
+  color: var(--terminal-fg)
+}
+
 /* Base styles using CSS variables */
 .navbar { 
   background-color: var(--header-bg); 
