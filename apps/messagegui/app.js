@@ -272,9 +272,11 @@ function showMessageScroller(msg) {
         .clearRect(r.x,r.y,r.x+r.w, r.y+r.h);
       g.setFont(bodyFont).setFontAlign(0,-1).drawString(lines[idx], r.x+r.w/2, r.y);
     },
-    select : function(idx) {
-      if (idx>=lines.length-2)
-        showMessage(msg.id, true);
+    select: function(idx) {
+      if (idx >= lines.length - 2) {
+        msg.new = false; // Mark as read
+        returnToMain();  // Exit to message list (not showMessage!)
+      }
     },
     back: () => {
       msg.new = false; // Mark as read
