@@ -40,6 +40,11 @@
   }
 }
 
+.form-input {
+  background-color: var(--terminal-bg) !important;
+  color: var(--terminal-fg) !important;
+}
+
 .btn {
   background: var(--bg-color) !important;
   color: var(--text-color) !important;
