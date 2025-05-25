@@ -2,7 +2,10 @@ Bangle.js App Loader (and Apps)
 ================================
 
 # Applications Added or Modified
-To date, the only application I have modified is `messagegui`. I do not intend on trying to upstream it, as it's based entirely on personal preference. 
+`messagegui`: I do not intend on trying to upstream it, as it's based entirely on personal preference. 
+
+## Other Changes
+I've added dark mode to the CSS. I've had to manually inclue many overrides because I didn't feel like de-minifying the Spectre CSS, but it seems mostly fine. 
 
 [![Build Status](https://github.com/espruino/BangleApps/actions/workflows/nodejs.yml/badge.svg)](https://github.com/espruino/BangleApps/actions/workflows/nodejs.yml)
 
