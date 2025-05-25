@@ -127,13 +127,10 @@ let draw = function() {
     batt > 25 ? "#FF0" :   // Yellow
                 "#F00";    // Red
 
-  // Draw battery box (white bg behind everything)
-  g.setColor("#FFF");
+  // Draw battery box background
+  g.setColor(theme.bg);
   g.fillRect(boxLeft, batteryTop, boxRight, batteryBottom);
 
-  // Draw border
-  g.setColor(theme.fg);
-  g.drawRect(boxLeft, batteryTop, boxRight, batteryBottom);
 
   // Draw inner battery fill bar (bottom-up)
   g.setColor(fillColor);
@@ -143,9 +140,6 @@ let draw = function() {
     boxRight - padding,
     innerBottom
   );
-
-console.log("batt:", batt, "Top:", batteryTop, "Bottom:", batteryBottom, "Fill:", batteryFillHeight);
-
 
   queueDraw(timeout);
 }
