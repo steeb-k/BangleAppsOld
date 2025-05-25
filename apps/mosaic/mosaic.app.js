@@ -105,7 +105,7 @@ let draw = function() {
   let batt = E.getBattery(); // battery %
   batt = Math.max(10, batt); // clamp to 10% minimum for visibility
 
-  let batteryGap = 4;
+  let batteryGap = 0;
   let padding = 4;
 
   // Box dimensions
