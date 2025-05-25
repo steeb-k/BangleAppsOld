@@ -42,6 +42,10 @@
   }
 }
 
+.form-input:focus {
+  border-color: var(--primary-color) !important;
+}
+
 .menu {
   background-color: var(--bg-color-transparent) !important;
   border: .05rem dotted var(--terminal-fg) !important;
