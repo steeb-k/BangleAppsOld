@@ -64,7 +64,7 @@
 
 .btn:hover {
   background-color: var(--terminal-bg) !important;
-  border-color: var(--tab-border) !important;
+  border-color: var(--primary-color) !important;
 }
 
 .card {
