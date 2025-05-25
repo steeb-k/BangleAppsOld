@@ -92,14 +92,14 @@ let draw = function() {
     let y = dayY + i * 3 * s;
     // Draw filled background box
     g.setColor(theme.bg);
-    g.fillRect(dayX - 15, y - 16, dayX + 12, y + 14); // Adjust box size as needed
+    g.fillRect(dayX - 15, y - 16, dayX + 10, y + 14); // Adjust box size as needed
     // Draw character
     g.setColor(theme.fg);
     //drawBoldText(dayOfWeek[i], dayX, y);
     g.drawString(dayOfWeek[i], dayX, y);
   }
   const boxLeft = dayX - 15;
-  const boxRight = dayX + 12;
+  const boxRight = dayX + 10;
   const boxWidth = boxRight - boxLeft;
 
   let batt = E.getBattery(); // battery %
@@ -110,7 +110,7 @@ let draw = function() {
 
   // Box dimensions
   let batteryTop = (mid_y - 7) * s + o_h; // top of time digits
-  let batteryBottom = dayY - lineSpacing - batteryGap; // above top of day text
+  let batteryBottom = dayY - lineSpacing + 6; // above top of day text
 
   // Ensure correct vertical direction
   let topY = Math.min(batteryTop, batteryBottom);
