@@ -94,19 +94,37 @@ function drawWatchFace() {
     );
 }
 
-  // Clear the screen once, at startup
-  g.clear();
-  // draw immediately at first, queue update
-  drawWatchFace();
+// Mark this app as a clock so launcher button works
+Bangle.setUI({
+    mode: 'clock',
+    remove: function () {
+        if (drawTimeout) clearTimeout(drawTimeout);
+        drawTimeout = undefined;
+        delete Array.prototype.sample;
+        require('widget_utils').show();
+    }
+});
 
-  // Show launcher when middle button pressed
-  Bangle.setUI({mode:"clock", remove:function() {
-    // free any memory we allocated to allow fast loading
-    if (drawTimeout) clearTimeout(drawTimeout);
-    drawTimeout = undefined;
-  }});
-  // Load widgets
-  Bangle.loadWidgets();
-  Bangle.drawWidgets();
+// === Auto redraw on screen wake and every minute ===
+Bangle.on('lcdPower', function (on) {
+    if (on) drawWatchFace();
+});
+setInterval(drawWatchFace, 60000);
+drawWatchFace();
+
+// === Prevent widgets from drawing over the watchface ===
+Bangle.on('lcdPower', on => {
+    if (on) {
+        drawWatchFace();
+    } else {
+        if (drawTimeout) clearTimeout(drawTimeout);
+        drawTimeout = undefined;
+    }
+});
+
+
+
+Bangle.loadWidgets();
+require("widget_utils").swipeOn(); // hides widgets but lets you swipe to see them
 
 
