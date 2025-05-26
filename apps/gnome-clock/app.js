@@ -83,7 +83,7 @@ function drawWatchFace() {
     );
 
     // === Draw Date ===
-    g.setFont("6x8", 2);
+    g.setFont("6x8", 3);
     let dateWidth = g.stringWidth(dateStr);
     drawTextWithThinOutline(
         dateStr,
