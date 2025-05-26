@@ -9,7 +9,7 @@
   "supports" : ["BANGLEJS2"],
   "readme": "README.md",
   "storage": [
-    {"name":"app.js","url":"app.js"},
+    {"name":"gnome-clock.app.js","url":"app.js"},
     {"name":"gnome-clock.img","url":"app-icon.js","evaluate":true}
   ]
 }
