@@ -46,7 +46,7 @@ function drawWatchFace() {
     // Determine theme and colors
     let isDarkMode = g.theme.bg < 0x7FFF;
     let textColor = isDarkMode ? 0xFFFF : 0x0000;
-    let outlineColor = isDarkMode ? 0x0000 : 0xFFFFFF;
+    let outlineColor = isDarkMode ? 0x0000 : 0xFFFF;
 
     // Screen size
     let screenWidth = g.getWidth();
