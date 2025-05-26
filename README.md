@@ -1,11 +1,29 @@
+# Changes from official repo
+## messagegui
+I do not intend on trying to upstream it, as it's based entirely on personal preference. However, the default `messages` behavior is wild to me. 
+
+For personal reasons, coming from a Xiaomi Mi Band, I greatly appreciated the simplicity of the notification system. This system is likely not great for someone who uses the watch beyond glancing at notifications. As I only use the watch for seeing if it's worth pulling out my phone, I don't want to have a constant reminder of notifications that the watch has received. 
+
+For privacy reasons, I also don't really want my messages plainly visible to anyone who picks up my watch. For those reasons, I've made the following changes:
+
+* Messages open immediately in the scrollable view.
+* When a message is scrolled through, hitting back automatically deletes the message.
+* I will very likely enhance this further to simply delete all notifications after they show on the watch face.
+
+I think this watch makes a great basic assistant to a phone but, as with every smart watch I've ever used, it's not a great standalone device. 
+
+## mosaic-plus
+I loved the `mosaic` clockface but hate visible widgets and am actively tracking battery life.
+
+* Clock has been shifted left just a tiny bit
+* In that newly available space, I have added a graphical battery bar that's green over 75% battery, yellow over 25%, and red below that. For clarity's sake, there's a 10% clamp on the minimum just so the bar is always visible.
+* Directly below the battery is a three-letter weekday. These aren't custom-drawn like the watchface, but since it's considerably smaller, it still looks pretty good!
+
+## CSS
+I've added dark mode to the CSS. I've had to manually inclue many overrides because I didn't feel like de-minifying the Spectre CSS, but it seems mostly fine. 
+
 Bangle.js App Loader (and Apps)
 ================================
-
-# Applications Added or Modified
-`messagegui`: I do not intend on trying to upstream it, as it's based entirely on personal preference. 
-
-## Other Changes
-I've added dark mode to the CSS. I've had to manually inclue many overrides because I didn't feel like de-minifying the Spectre CSS, but it seems mostly fine. 
 
 [![Build Status](https://github.com/espruino/BangleApps/actions/workflows/nodejs.yml/badge.svg)](https://github.com/espruino/BangleApps/actions/workflows/nodejs.yml)
 
