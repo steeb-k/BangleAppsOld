@@ -1,5 +1,3 @@
-import settings from './settings.js';  // Adjust if your environment uses modules
-
 // lock screen handling
 function drawLockIcon() {
   // Simple lock icon (replace with your own drawing or image)
