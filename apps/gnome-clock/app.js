@@ -3,12 +3,29 @@ var settings = require("Storage").readJSON("settings.json", 1) || {
   showLockIconWhenLocked: true
 };
 
-// Draw the lock icon at top-left corner
+const lockIcon = {
+  width: 12, height: 12, bpp: 1,
+  transparent: 0,
+  buffer: E.toUint8Array([
+    0b00011110, 0b00000000,
+    0b00100001, 0b00000000,
+    0b01000000, 0b00000000,
+    0b10011111, 0b00000000,
+    0b10100001, 0b00000000,
+    0b10100001, 0b00000000,
+    0b10100001, 0b00000000,
+    0b10100001, 0b00000000,
+    0b10111111, 0b00000000,
+    0b10100001, 0b00000000,
+    0b10100001, 0b00000000,
+    0b11111111, 0b00000000
+  ])
+};
+
 function drawLockIcon() {
-  g.setColor(1,1,1);
-  g.drawRect(5, 5, 15, 15);   // lock body
-  g.drawLine(5, 10, 15, 10);  // lock shackle bottom
-  g.drawArc(10, 5, 5, 5, 0, Math.PI, true); // lock shackle top
+  if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
+    g.drawImage(lockIcon, 5, 5);
+  }
 }
 
 // Cantarell fonts. Bold for the clock, small for the date.
