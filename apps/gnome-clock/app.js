@@ -16,8 +16,8 @@ var darkWallpaper = require("heatshrink").decompress(atob("2Gw4n/kHCgHKwHS4Ha8tY
 // === Helper: Draw thick outline text ===
 function drawTextWithOutline(text, x, y, textColor, outlineColor) {
     g.setColor(outlineColor);
-    [-3, 0, 3].forEach(dx => {
-        [-3, 0, 3].forEach(dy => {
+    [-5, 0, 5].forEach(dx => {
+        [-5, 0, 5].forEach(dy => {
             if (dx || dy) g.drawString(text, x + dx, y + dy);
         });
     });
@@ -28,8 +28,8 @@ function drawTextWithOutline(text, x, y, textColor, outlineColor) {
 // === Helper: Draw thin outline text (for date) ===
 function drawTextWithThinOutline(text, x, y, textColor, outlineColor) {
     g.setColor(outlineColor);
-    [-2, 0, 2].forEach(dx => {
-        [-2, 0, 2].forEach(dy => {
+    [-3, 0, 3].forEach(dx => {
+        [-3, 0, 3].forEach(dy => {
             if (dx || dy) g.drawString(text, x + dx, y + dy);
         });
     });
