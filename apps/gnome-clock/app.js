@@ -122,6 +122,10 @@ function drawWatchFace() {
         isDarkMode ? 0xFFFF : 0x0000,
         outlineColor
     );
+
+    if (settings && settings.showLockIconWhenLocked && Bangle.isLocked()) {
+        drawLockIcon();
+    }
 }
 
 // Mark this app as a clock so launcher button works
@@ -138,8 +142,8 @@ Bangle.on('lcdPower', on => {
 });
 
 Bangle.on('lock', (isLocked) => {
-    drawWatchFace();
-  });
+  drawWatchFace();
+});
 
 setInterval(drawWatchFace, 60000);
 drawWatchFace();
