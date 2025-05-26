@@ -89,7 +89,7 @@ function drawWatchFace() {
         dateStr,
         centerX - (dateWidth / 2),
         startY + timeHeight + spacing,
-        isDarkMode ? 0xAAAA : 0x0000,
+        isDarkMode ? 0xFFFF : 0x0000,
         outlineColor
     );
 }
