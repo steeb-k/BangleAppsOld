@@ -4,33 +4,17 @@ var settings = require("Storage").readJSON("settings.json", 1) || {
 };
 
 const lockIcon = {
-  width: 16, height: 16, bpp: 1,
-  transparent: 0,
-  buffer: E.toUint8Array([
-    0b00000111, 0b11100000,
-    0b00011000, 0b00011000,
-    0b00100000, 0b00000100,
-    0b01000000, 0b00000010,
-    0b01000000, 0b00000010,
-    0b01000000, 0b00000010,
-    0b01001111, 0b11110010,
-    0b01001000, 0b00010010,
-    0b01001000, 0b00010010,
-    0b01001000, 0b00010010,
-    0b01001000, 0b00010010,
-    0b01001111, 0b11110010,
-    0b01000000, 0b00000010,
-    0b00100000, 0b00000100,
-    0b00011000, 0b00011000,
-    0b00000111, 0b11100000,
-  ])
+  width: 16, height: 16, bpp: 1, transparent: 0,
+  buffer: E.toUint8Array(atob("DhABH+D/wwMMDDAwwMf/v//4f+H/h/8//P/z///f/g=="))
 };
 
-
 function drawLockIcon() {
-  g.setColor(1); // White (or use g.setColor(0xFFFF) if needed)
-  g.drawImage(lockIcon, 20, 5, {scale: 2});
+  if (Bangle.isLocked()) {
+    g.setColor(1); // white
+    g.drawImage(lockIcon, 10, 5); // adjust position as needed
+  }
 }
+
 
 
 // Cantarell fonts. Bold for the clock, small for the date.
