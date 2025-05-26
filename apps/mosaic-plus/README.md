@@ -14,8 +14,10 @@ PLUS:
 * Three-digit weekday
 
 ![](mosaic-plus-scr1.png)
+![](mosaic-plus-scr2.png)
 
 This clock is inspired by the mosaic watchface for pebble: https://apps.rebble.io/en_US/application/55386bcd2aead62b16000028
 
-Written by: [Sir Indy](https://github.com/sir-indy) 
+Written by: [Sir Indy](https://github.com/sir-indy)
+
 Modified by: [steeb-k](https://github.com/steeb-k) 
