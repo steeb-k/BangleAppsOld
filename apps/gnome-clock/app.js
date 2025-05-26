@@ -29,7 +29,7 @@ const lockIcon = {
 
 function drawLockIcon() {
   g.setColor(1); // White (or use g.setColor(0xFFFF) if needed)
-  g.drawImage(lockIcon, 20, 5); // Top-left corner, offset for visibility
+  g.drawImage(lockIcon, 20, 5, {scale: 2});
 }
 
 
