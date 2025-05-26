@@ -3,18 +3,6 @@ var settings = require("Storage").readJSON("settings.json", 1) || {
   showLockIconWhenLocked: true
 };
 
-function drawLockIcon() {
-  if (!Bangle.isLocked()) return;
-
-  g.reset(); // Reset color and clipping to default
-  g.drawImage({
-    width: 16, height: 16, bpp: 1, transparent: 0,
-    buffer: E.toUint8Array(atob("DhABH+D/wwMMDDAwwMf/v//4f+H/h/8//P/z///f/g=="))
-  }, 1, 4); // Match widget coordinates
-}
-
-
-
 // Cantarell fonts. Bold for the clock, small for the date.
 Graphics.prototype.setFontCantarellBold = function () {
     // Actual height 46 (47 - 2)
@@ -81,6 +69,14 @@ function drawWatchFace() {
     let screenHeight = g.getHeight();
     let centerX = screenWidth / 2;
 
+    // Lockscreen icon
+    if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
+        g.reset();
+        g.drawImage(require("heatshrink").decompress(atob(
+            "iEQxAIF/3/AIIABC5H/sAAECA4OCDoQFDBxAHK/woICAX+AoZIIDQIPNBQOpNQQACAgX9A4gICNYoAHB74wBD5x+CB7YvQOgiEDRAgAB"
+        )), 0, 0);
+    }
+
     // Clear background and draw wallpaper
     g.clear();
     g.drawImage(isDarkMode ? darkWallpaper : lightWallpaper, 0, 0);
@@ -140,9 +136,7 @@ Bangle.on('lcdPower', on => {
   if (on) drawWatchFace();
 });
 
-Bangle.on('lock', locked => {
-  drawWatchFace();
-});
+Bangle.on('lock', drawWatchFace);
 
 // Redraw every minute
 setInterval(drawWatchFace, 60000);
