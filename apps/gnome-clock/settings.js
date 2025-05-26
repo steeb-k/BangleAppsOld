@@ -1,3 +1,2 @@
-{
-  "showLockIconWhenLocked": true
+{  "showLockIconWhenLocked": true,
 }

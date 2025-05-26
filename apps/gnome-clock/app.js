@@ -3,16 +3,14 @@ var settings = require("Storage").readJSON("settings.json", 1) || {
   showLockIconWhenLocked: true
 };
 
-const lockIcon = {
-  width: 16, height: 16, bpp: 1, transparent: 0,
-  buffer: E.toUint8Array(atob("DhABH+D/wwMMDDAwwMf/v//4f+H/h/8//P/z///f/g=="))
-};
-
 function drawLockIcon() {
-  if (Bangle.isLocked()) {
-    g.setColor(1); // white
-    g.drawImage(lockIcon, 10, 5); // adjust position as needed
-  }
+  if (!Bangle.isLocked()) return;
+
+  g.reset(); // Reset color and clipping to default
+  g.drawImage({
+    width: 16, height: 16, bpp: 1, transparent: 0,
+    buffer: E.toUint8Array(atob("DhABH+D/wwMMDDAwwMf/v//4f+H/h/8//P/z///f/g=="))
+  }, 1, 4); // Match widget coordinates
 }
 
 
