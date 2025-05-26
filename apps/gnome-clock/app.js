@@ -98,12 +98,10 @@ function drawWatchFace() {
 Bangle.setUI({
     mode: 'clock',
     remove: function () {
-        if (drawTimeout) clearTimeout(drawTimeout);
-        drawTimeout = undefined;
-        delete Array.prototype.sample;
-        require('widget_utils').show();
+      require('widget_utils').show(); // safely re-show widgets
     }
-});
+  });
+  
 
 // === Auto redraw on screen wake and every minute ===
 Bangle.on('lcdPower', function (on) {
@@ -117,8 +115,6 @@ Bangle.on('lcdPower', on => {
     if (on) {
         drawWatchFace();
     } else {
-        if (drawTimeout) clearTimeout(drawTimeout);
-        drawTimeout = undefined;
     }
 });
 
