@@ -11,6 +11,7 @@
   "allow_emulator": true,
   "storage": [
     {"name":"gnome-clock.app.js","url":"app.js"},
+    {"name":"settings.js","url":"settings.js"},
     {"name":"gnome-clock.img","url":"app-icon.js","evaluate":true}
   ]
 }
