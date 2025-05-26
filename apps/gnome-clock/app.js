@@ -120,7 +120,7 @@ function drawWatchFace() {
     );
 
     // If screen locked and setting enabled, draw lock icon
-    if (Bangle.isLocked() && settings.showLockIconWhenLocked) {
+    if (Bangle.isLocked()) {
         drawLockIcon();
     }
 }
