@@ -1,7 +1,7 @@
 { "id": "gnome-clock",
   "name": "Gnome Clock",
   "shortName":"Gnome Clock",
-  "version":"0.012",
+  "version":"0.013",
   "description": "A Gnome-inspired clock",
   "icon": "gnome-clock.icon.png",
   "type": "clock",

@@ -1,21 +1,15 @@
-// lock screen handling
+// Load settings from Storage or use defaults
+var settings = require("Storage").readJSON("settings.json", 1) || {
+  showLockIconWhenLocked: true
+};
+
+// Draw the lock icon at top-left corner
 function drawLockIcon() {
-  // Simple lock icon (replace with your own drawing or image)
-  g.setColor(1, 1, 1);
+  g.setColor(1,1,1);
   g.drawRect(5, 5, 15, 15);   // lock body
   g.drawLine(5, 10, 15, 10);  // lock shackle bottom
   g.drawArc(10, 5, 5, 5, 0, Math.PI, true); // lock shackle top
 }
-
-function drawWatchFace() {
-  // your existing drawWatchFace code
-
-  // Add lock icon if screen locked and enabled in settings
-  if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
-    drawLockIcon();
-  }
-}
-
 
 // Cantarell fonts. Bold for the clock, small for the date.
 Graphics.prototype.setFontCantarellBold = function () {
@@ -123,28 +117,30 @@ function drawWatchFace() {
         outlineColor
     );
 
-    if (settings && settings.showLockIconWhenLocked && Bangle.isLocked()) {
+    // If screen locked and setting enabled, draw lock icon
+    if (Bangle.isLocked() && settings.showLockIconWhenLocked) {
         drawLockIcon();
     }
 }
 
 // Mark this app as a clock so launcher button works
 Bangle.setUI({
-    mode: 'clock',
-    remove: function () {
-        require('widget_utils').show(); // safely re-show widgets
-    }
+  mode: 'clock',
+  remove: function () {
+    require('widget_utils').show();
+  }
 });
 
-// Show watchface and update every 60 seconds
+// Redraw on lcdPower and lock events
 Bangle.on('lcdPower', on => {
-    if (on) drawWatchFace();
+  if (on) drawWatchFace();
 });
 
-Bangle.on('lock', (isLocked) => {
+Bangle.on('lock', locked => {
   drawWatchFace();
 });
 
+// Redraw every minute
 setInterval(drawWatchFace, 60000);
 drawWatchFace();
 
