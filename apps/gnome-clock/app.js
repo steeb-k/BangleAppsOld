@@ -3,9 +3,9 @@ var settings = require("Storage").readJSON("settings.json", 1) || {
   showLockIconWhenLocked: true
 };
 
-const lockIconLight = require("heatshrink").decompress(atob("jEY4kBhlj/4ADg9998441xxlNtf771Z52e+++++a60888f/AjBiIABiUiAAUhBAQACjA3DwILF0AKCg8KBQkagEN1Wq6EA0ILDwEAzXikWpgEICwcHhI3CiWQDAYtB7QdD1UAGIMS0EJFIkSkEKkILBgRNFBYIXCBZMi2ECOgMjPAUghYDBLYIAHkUsswAI4UpZROSBfclC6tSEZctzIAI6SVCABAA=="));
+const lockIconLight = require("heatshrink").decompress(atob("jEY4kCAoP/AAV99/33ue++++4jRkQABkMRAAUSBAQACiITDiIKEkMQBYcBDAgWBgIiBB4IYDCwUVBYNRDAgWCAoQRCqIFBCwQpDDAMFCAUBqRBFgsSBYRZFBYIXDBZBNBKIQADiEGAYNVqNVAAwTFAA0UogAIoMUWRIL/BZJfKPBgAKA"));
 
-const lockIconDark = require("heatshrink").decompress(atob("jEY4kB+ec///BIOCiHHnOOuckkOyylhhGmmNBhEEkPDjFllIjDiIABiUiAAUhBAQACiwTDsILFmALDgYKEicAhczmewgExBYdggGTFwM5gEGCwkJG4USyAYDFoOzDoczGIUSmEJFIkSkEDkILBgRNFBYIXCBZMiwECOwYABkEIkUqLYIAH0UpqoAIyUkZRNCBf4LfllEABHCTAoAFA=="));
+const lockIconDark = require("heatshrink").decompress(atob("jEY4kC///A4IDBwUQhFCsMIoMIsMQEZ8iAAMhiIACiQICAAURCYcRBQkhFYkBDAgWBgIiBB4IYDCwUTBYMxDAgWCAoQRCmIFBCwQpDDAMDCAUBmRBFgcSBYRZFBYIXDBZBNBKIQADiEFiMVmcxmYAGsIUFAAsUogAIoMUWRIL/BZJfKO5YAL"));
 
 // Draw appropriate lock icon based on theme
 function drawLockIcon() {
