@@ -4,13 +4,12 @@
   "version":"0.01",
   "description": "A Gnome-inspired clock.",
   "icon": "gnome-clock.icon.png",
-  "screenshots": [{"url":"screenshot.png"}],
   "type": "clock",
   "tags": "clock",
   "supports" : ["BANGLEJS2"],
   "readme": "README.md",
   "storage": [
-    {"name":"gnome-clock.app.js","url":"app.js"},
-    {"name":"gnome-clock.img","url":"gnome-clock.app-icon.js","evaluate":true}
+    {"name":"app.js","url":"app.js"},
+    {"name":"gnome-clock.img","url":"app-icon.js","evaluate":true}
   ]
 }
