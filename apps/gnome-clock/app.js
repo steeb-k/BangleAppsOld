@@ -3,13 +3,17 @@ var settings = require("Storage").readJSON("settings.json", 1) || {
   showLockIconWhenLocked: true
 };
 
+const lockIconLight = require("heatshrink").decompress(atob("jEY4kBhlj/4ADg9998441xxlNtf771Z52e+++++a60888f/AjBiIABiUiAAUhBAQACjA3DwILF0AKCg8KBQkagEN1Wq6EA0ILDwEAzXikWpgEICwcHhI3CiWQDAYtB7QdD1UAGIMS0EJFIkSkEKkILBgRNFBYIXCBZMi2ECOgMjPAUghYDBLYIAHkUsswAI4UpZROSBfclC6tSEZctzIAI6SVCABAA=="));
+
+const lockIconDark = require("heatshrink").decompress(atob("jEY4kB+ec///BIOCiHHnOOuckkOyylhhGmmNBhEEkPDjFllIjDiIABiUiAAUhBAQACiwTDsILFmALDgYKEicAhczmewgExBYdggGTFwM5gEGCwkJG4USyAYDFoOzDoczGIUSmEJFIkSkEDkILBgRNFBYIXCBZMiwECOwYABkEIkUqLYIAH0UpqoAIyUkZRNCBf4LfllEABHCTAoAFA=="));
+
+// Draw appropriate lock icon based on theme
 function drawLockIcon() {
   g.reset();
+  let isDarkMode = g.theme.bg < 0x7FFF;
   g.drawImage(
-    require("heatshrink").decompress(atob(
-      "iEQxAIF/3/AIIABC5H/sAAECA4OCDoQFDBxAHK/woICAX+AoZIIDQIPNBQOpNQQACAgX9A4gICNYoAHB74wBD5x+CB7YvQOgiEDRAgAB"
-    )),
-    1, 4
+    isDarkMode ? lockIconDark : lockIconLight,
+    6, 4
   );
 }
 
