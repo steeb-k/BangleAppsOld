@@ -3,6 +3,16 @@ var settings = require("Storage").readJSON("settings.json", 1) || {
   showLockIconWhenLocked: true
 };
 
+function drawLockIcon() {
+  g.reset();
+  g.drawImage(
+    require("heatshrink").decompress(atob(
+      "iEQxAIF/3/AIIABC5H/sAAECA4OCDoQFDBxAHK/woICAX+AoZIIDQIPNBQOpNQQACAgX9A4gICNYoAHB74wBD5x+CB7YvQOgiEDRAgAB"
+    )),
+    1, 4
+  );
+}
+
 // Cantarell fonts. Bold for the clock, small for the date.
 Graphics.prototype.setFontCantarellBold = function () {
     // Actual height 46 (47 - 2)
@@ -68,14 +78,6 @@ function drawWatchFace() {
     let screenWidth = g.getWidth();
     let screenHeight = g.getHeight();
     let centerX = screenWidth / 2;
-
-    // Lockscreen icon
-    if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
-        g.reset();
-        g.drawImage(require("heatshrink").decompress(atob(
-            "iEQxAIF/3/AIIABC5H/sAAECA4OCDoQFDBxAHK/woICAX+AoZIIDQIPNBQOpNQQACAgX9A4gICNYoAHB74wBD5x+CB7YvQOgiEDRAgAB"
-        )), 0, 0);
-    }
 
     // Clear background and draw wallpaper
     g.clear();
