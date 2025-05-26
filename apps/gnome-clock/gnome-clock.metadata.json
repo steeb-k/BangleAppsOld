@@ -4,7 +4,7 @@
   "version":"0.01",
   "description": "A Gnome-inspired clock.",
   "icon": "gnome-clock.icon.png",
-  /*"screenshots": [{"url":"screenshot.png"}],*/
+  "screenshots": [{"url":"screenshot.png"}],
   "type": "clock",
   "tags": "clock",
   "supports" : ["BANGLEJS2"],
