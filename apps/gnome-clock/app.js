@@ -18,7 +18,7 @@ function drawLockIcon() {
 }
 
 // Cantarell fonts. Bold for the clock, small for the date.
-Graphics.prototype.setFontAdwaitaSansRegular = function() {
+Graphics.prototype.setFontCantarellBold = function() {
   // Actual height 55 (56 - 2)
   // 2 BPP
   return this.setFontCustom(
@@ -29,14 +29,14 @@ Graphics.prototype.setFontAdwaitaSansRegular = function() {
   );
 }
 
-Graphics.prototype.setFontAdwaitaSansRegularSmall = function() {
-  // Actual height 23 (22 - 0)
+Graphics.prototype.setFontCantarellSmall = function() {
+  // Actual height 19 (18 - 0)
   // 2 BPP
   return this.setFontCustom(
-    E.toString(require('heatshrink').decompress(atob('ACE+AokH+AGEn4TFoAgLgOAEAn8Aodv/4MCg3//wgCj//8gbC34KDg///IcD3+QAocFMicbEIgyB//9FoX+qtv+g5BBIUP6EAl50EgYIBCAKBBngMCh4MHS4YdBgP4AoMLCAMLHwMbBIUvIAP+CwYFENINUM6F9AokP4AFDgTSFCQzEEgA/BAALIBh4GDEYNVAARCPvilCSIQcBg49Bh/oPwP/IwKrBgF/Rwkf76bDDAKoDgP8VAl/gAMBUgMf4AMBZ4NfBQIBBg//UwIMBCILdCPwsFMB0BAQO0TYkLD4W/LQRqBj6bCUoMD8AWEnpcCQIMD4ABBIAQKBBwIMC8EL8EBM4VBRgKFCfYP9N4JnCw//TAUGyBpDAAUVMZZzFYIQACgY0BOof+Bgn/p4FDv+ABgc/6CnCLoJ1BBgUPdgQqCXQJmCDAP/AAQ3CAAQNBitVqtfqpOEZwozDABkW1+A3ozD/kLRwIzCwEvTYM8IoSoBYAK7BZ4U8gfQGgQMDZ4YMCbgcvdoYmB/sB/gMCZQP/oEAlAXB/4bBAAUGBYIAOg3//IFChYlBdIUH/2/ewf9h/Qj4tBl5nF8BaBBAU9JAJnD6AMGLwJjBPoMvoEHBAIrB/1WM4MAvxnCAoMB8BIBwBZHgoGFbJMBIYIMCSoQMCgP/BgYFBXwYFDBgIFEh4FEgHxAokPWYoFFM4K5PZocLWoUD/+DWobAB/1fKYMvoKGBWocL6CoDgE8fAIMB4C8CBgd9BgYZB8C5BBAOW/9AvwzB3/93+/DYMC/9DIAb/C/BhPgtQC4iCBh9AUwTbB/wMBn9B/sHFoMLKgPwh7qBGAJSBvibBDgPwMYQVBZYIMCwB5BDoMA3hwBgIQBgf0j+BSAIkBHQLvCTgIFBYoca1QvBACq5DNwSfBv4MCn4MBBAIABFYMEDw4'))),
+    E.toString(require('heatshrink').decompress(atob('ABEgAgcP4AFD/gEDgIbKtgPD34bCjf/yAIC/1AgEL//kFoQICAAP4JJ8G//5AgMD///IwQgBjfwgEvFIWAgY9CngBCDAPABQsuAgMLBAP9gEH+gCBFYIHBKQX+MwdUJhstAgcHSwcBJIIACnoEDLgRdCn4FCV4gAHNAV8NQImBj/AgJUCEAIrBgP7Nod+PAcfoYKCg/QBAMvoX0CYRxCBQMCOIKMDAAMUIxcC6BGCgG9IIJJCcAK6C6EFXQnwXQcPBQaKBBAMC8E/wG4DoP/v1vEYM/6P/8D4D8i7NIIOAJwaIBXgSpE/z/CgG/RAIEBv9ABQUvTgcPNoIKCZQX/JgQABcgaTFFYY3BKJ1AqBPB3/8hYzBfgPAv4oB6E4gCDBnkLoCZDHIKZCh4KE3jACnkD+iZBBQMf/4rBiBpBTJsG/74BI4JsB/oFB/sfq44Bl4nBhbmB4G0IIh+CAIP0BQU9hYVB4EB+k/owMBhfBFYcYgX+dYIAKUIisDjgKDj7NDj44DAgR4CAgIKBAgcD7/4EwU/AgcDAgcAijTORwNAv+AgEH/8v/7uB/376IjBnsC+kHJgUfRwcA+CODBQcuaAIVBgH//fVKYMH/0fYAUFgA2CABUB/9AugFB3/+hfgQINB+kvfgPQF4N8IYZBDAIJMDngRBgXghdAMQMP6/h34rBv///5BCt7VNAAMkgEIAgMPGQPwAoP8XAJYCAQIhGA='))),
     46,
-    atob("BwoQCg8QEA8PDg8QBw=="),
-    26|131072
+    atob("BggOCA0NDw0NDQ0NBg=="),
+    22|131072
   );
 }
 
@@ -94,7 +94,7 @@ function drawWatchFace() {
     let dateStr = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
     // Estimate sizes
-    g.setFontAdwaitaSansRegular();
+    g.setFontCantarellBold();
     let timeWidth = g.stringWidth(timeStr);
     let timeHeight = 58;
     let spacing = 10;
@@ -113,7 +113,7 @@ function drawWatchFace() {
     );
 
     // Draw date
-    g.setFontAdwaitaSansRegularSmall();
+    g.setFontCantarellSmall();
     let dateWidth = g.stringWidth(dateStr);
     drawTextWithThinOutline(
         dateStr,
