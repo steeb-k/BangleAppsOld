@@ -9,15 +9,7 @@ const lockIconLight = require("heatshrink").decompress(atob("jEYwUBqtX///6tVqtfB
 
 const lockIconDark = require("heatshrink").decompress(atob("jEYwUBqtUA4MVqtVqH//8FAoNDAoPBAoMPAoPwCwM/4ED/kVCwMFAQVTBAIOB4tTCgIaBAoPxAoNPApkD+BBBh/AKIs/HQIAB/gFvSZY"))
 
-// Draw appropriate lock icon based on theme
-function drawLockIcon() {
-    g.reset();
-    let isDarkMode = g.theme.bg < 0x7FFF;
-    g.drawImage(
-        isDarkMode ? lockIconDark : lockIconLight,
-        6, 4
-    );
-}
+
 
 // Cantarell fonts. Bold for the clock, small for the date.
 Graphics.prototype.setFontClock = function () {
@@ -64,6 +56,15 @@ function drawTextWithOutlineThickness(text, x, y, textColor, outlineColor, thick
 
 // Drawing the watch face
 function drawWatchFace() {
+    // Draw appropriate lock icon based on theme
+    function drawLockIcon() {
+        g.reset();
+        let isDarkMode = g.theme.bg < 0x7FFF;
+        g.drawImage(
+            isDarkMode ? lockIconDark : lockIconLight,
+            6, 4
+        );
+    }
     let date = new Date();
     let hours = date.getHours();
     let minutes = date.getMinutes();
