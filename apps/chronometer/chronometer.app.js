@@ -5,9 +5,9 @@ var settings = Object.assign({
   showWidgets: false,
 }, require('Storage').readJSON("chronometer.settings.json", true) || {});
 
-const lockIconLight = require("heatshrink").decompress(atob("jEYwUBqtX///6tVqtfBoP1AoN8AoM9AoPwn/8h4WB4AXBgfVr4CBBAP1rgOBCgM1vgaCAYN8moFBrgLBAon8n4jBAYYAP+BcDh4FjHaI"));
+const lockIconLight = require("heatshrink").decompress(atob("jEYwUBqtX///6tVqtfBoP1AoN8AoM9AoPwAoMPCwPAn/8gfVCwP1AQVcBAIOBmtcCgIaBAoMNAoNwApn8h5BB+E/AYIAD4BWDgYFvHYoAFA="))
 
-const lockIconDark = require("heatshrink").decompress(atob("jEYwUC1WoA4Mq1Wq0H//8KAoODAoPCAoMP4ED+AWBn4XB/kq0ACBBAMK0YOBCgPKwYaCAYOD5QFB0YLBAokD4AjBAYYAJitVAAVUj5GBAAP0AsYvFIJY"));
+const lockIconDark = require("heatshrink").decompress(atob("jEYwUBqtUA4MVqtVqH//8FAoNDAoPBAoMPAoPwCwM/4ED/kVCwMFAQVTBAIOB4tTCgIaBAoPxAoNPApkD+BBBh/AKIs/HQIAB/gFvSZY"))
 
 // Draw appropriate lock icon based on theme
 function drawLockIcon() {
