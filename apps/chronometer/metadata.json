@@ -1,7 +1,7 @@
 { "id": "chronometer",
   "name": "Chronometer",
   "shortName":"Chronometer",
-  "version":"0.012",
+  "version":"0.014",
   "description": "A GNOME-inspired clock",
   "icon": "chronometer.icon.png",
   "type": "clock",
@@ -12,6 +12,7 @@
   "storage": [
     {"name":"chronometer.app.js","url":"chronometer.app.js"},
     {"name":"chronometer.settings.js","url":"chronometer.settings.js"},
+    {"name": "chronometer.settings.json", "url": "chronometer.settings.json"},
     {"name":"chronometer.img","url":"app-icon.js","evaluate":true}
   ]
 }
