@@ -1,8 +1,9 @@
 // Load settings from Storage or use defaults
 var settings = Object.assign({
   // default values
-  showLockIconWhenLocked: true
-}, require('Storage').readJSON("settings.json", true) || {});
+  showLockIconWhenLocked: true,
+  showWidgets: false,
+}, require('Storage').readJSON("chronometer.settings.json", true) || {});
 
 const lockIconLight = require("heatshrink").decompress(atob("jEYwUBqtX///6tVqtfBoP1AoN8AoM9AoPwn/8h4WB4AXBgfVr4CBBAP1rgOBCgM1vgaCAYN8moFBrgLBAon8n4jBAYYAP+BcDh4FjHaI"));
 

@@ -1,2 +1,0 @@
-{  "showLockIconWhenLocked": true,
-}
