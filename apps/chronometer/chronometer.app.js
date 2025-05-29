@@ -5,12 +5,6 @@ var settings = Object.assign({
   showWidgets: false,
 }, require('Storage').readJSON("chronometer.settings.json", true) || {});
 
-const lockIconLight = require("heatshrink").decompress(atob("jEYwUBqtX///6tVqtfBoP1AoN8AoM9AoPwAoMPCwPAn/8gfVCwP1AQVcBAIOBmtcCgIaBAoMNAoNwApn8h5BB+E/AYIAD4BWDgYFvHYoAFA="))
-
-const lockIconDark = require("heatshrink").decompress(atob("jEYwUBqtUA4MVqtVqH//8FAoNDAoPBAoMPAoPwCwM/4ED/kVCwMFAQVTBAIOB4tTCgIaBAoPxAoNPApkD+BBBh/AKIs/HQIAB/gFvSZY"))
-
-
-
 // Cantarell fonts. Bold for the clock, small for the date.
 Graphics.prototype.setFontClock = function () {
     // Actual height 61 (63 - 3)
@@ -56,23 +50,16 @@ function drawTextWithOutlineThickness(text, x, y, textColor, outlineColor, thick
 
 // Drawing the watch face
 function drawWatchFace() {
-    // Draw appropriate lock icon based on theme
-    function drawLockIcon() {
-        g.reset();
-        let isDarkMode = g.theme.bg < 0x7FFF;
-        g.drawImage(
-            isDarkMode ? lockIconDark : lockIconLight,
-            6, 4
-        );
-    }
+    // Detect if we're in dark mode
+    let isDarkMode = g.theme.bg < 0x7FFF;
+
+    // Dark mode colors for text
+    let textColor = isDarkMode ? 0xFFFF : 0x0000;
+    let outlineColor = isDarkMode ? 0x0000 : 0xFFFFFF;
+
     let date = new Date();
     let hours = date.getHours();
     let minutes = date.getMinutes();
-
-    // Determine theme and colors
-    let isDarkMode = g.theme.bg < 0x7FFF;
-    let textColor = isDarkMode ? 0xFFFF : 0x0000;
-    let outlineColor = isDarkMode ? 0x0000 : 0xFFFFFF;
 
     // Screen size
     let screenWidth = g.getWidth();
@@ -120,6 +107,17 @@ function drawWatchFace() {
         outlineColor,
         3
     );
+
+    // Draw appropriate lock icon based on theme
+    function drawLockIcon() {
+        const lockIconLight = require("heatshrink").decompress(atob("jEYwUBqtX///6tVqtfBoP1AoN8AoM9AoPwAoMPCwPAn/8gfVCwP1AQVcBAIOBmtcCgIaBAoMNAoNwApn8h5BB+E/AYIAD4BWDgYFvHYoAFA="))
+        const lockIconDark = require("heatshrink").decompress(atob("jEYwUBqtUA4MVqtVqH//8FAoNDAoPBAoMPAoPwCwM/4ED/kVCwMFAQVTBAIOB4tTCgIaBAoPxAoNPApkD+BBBh/AKIs/HQIAB/gFvSZY"))
+        g.reset();
+        g.drawImage(
+            isDarkMode ? lockIconDark : lockIconLight,
+            6, 4
+        );
+    }
 
     // If screen locked and setting enabled, draw lock icon
     if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
