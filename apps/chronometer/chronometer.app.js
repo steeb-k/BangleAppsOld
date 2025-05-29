@@ -109,7 +109,7 @@ function drawWatchFace() {
     );
 
     // Draw appropriate lock icon based on theme
-    function drawLockIcon() {
+    function drawLockIcon(isDarkMode) {
         const lockIconLight = require("heatshrink").decompress(atob("jEYwUBqtX///6tVqtfBoP1AoN8AoM9AoPwAoMPCwPAn/8gfVCwP1AQVcBAIOBmtcCgIaBAoMNAoNwApn8h5BB+E/AYIAD4BWDgYFvHYoAFA="))
         const lockIconDark = require("heatshrink").decompress(atob("jEYwUBqtUA4MVqtVqH//8FAoNDAoPBAoMPAoPwCwM/4ED/kVCwMFAQVTBAIOB4tTCgIaBAoPxAoNPApkD+BBBh/AKIs/HQIAB/gFvSZY"))
         g.reset();
@@ -121,7 +121,7 @@ function drawWatchFace() {
 
     // If screen locked and setting enabled, draw lock icon
     if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
-        drawLockIcon();
+        drawLockIcon(isDarkMode);
     }
 }
 
