@@ -1,17 +1,17 @@
-{ "id": "gnome-clock",
-  "name": "Gnome Clock",
-  "shortName":"Gnome Clock",
+{ "id": "chronometer",
+  "name": "GNOME Clock",
+  "shortName":"GNOME Clock",
   "version":"0.03",
-  "description": "A Gnome-inspired clock",
-  "icon": "gnome-clock.icon.png",
+  "description": "A GNOME-inspired clock",
+  "icon": "chronometer.icon.png",
   "type": "clock",
   "tags": "clock",
   "supports" : ["BANGLEJS2"],
   "readme": "README.md",
   "allow_emulator": true,
   "storage": [
-    {"name":"gnome-clock.app.js","url":"app.js"},
-    {"name":"settings.js","url":"settings.js"},
-    {"name":"gnome-clock.img","url":"app-icon.js","evaluate":true}
+    {"name":"chronometer.app.js","url":"app.js"},
+    {"name":"settings.chronometer.js","url":"settings.js"},
+    {"name":"chronometer.img","url":"app-icon.js","evaluate":true}
   ]
 }
