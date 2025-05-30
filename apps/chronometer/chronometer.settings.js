@@ -16,8 +16,6 @@
     storage.write(SETTINGS_FILE, settings);
   }
 
-  var theme_options = ['System', 'Light', 'Dark'];
-
   E.showMenu({
     '': { 'title': 'Chronometer' },
     '< Back': back,
