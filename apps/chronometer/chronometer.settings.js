@@ -5,6 +5,7 @@
   // Default settings
   let defaults = {
     showWidgets: false,
+    theme: 'System',
     showLockIconWhenLocked: true
   };
 
@@ -15,6 +16,7 @@
     storage.write(SETTINGS_FILE, settings);
   }
 
+  var theme_options = ['System', 'Light', 'Dark'];
 
   E.showMenu({
     '': { 'title': 'Chronometer' },
