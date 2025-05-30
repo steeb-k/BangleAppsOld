@@ -114,9 +114,9 @@ function drawWatchFace() {
     }
 
     // If screen locked and setting enabled, draw lock icon
-    //if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
+    if (Bangle.isLocked()) {
         drawLockIcon(isDarkMode);
-    //}
+    }
 }
 
 // Mark this app as a clock so launcher button works
