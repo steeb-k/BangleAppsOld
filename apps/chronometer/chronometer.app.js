@@ -33,8 +33,6 @@ let darkWallpaper = require("heatshrink").decompress(atob("2Gw4n/kHCgHKwHS4Ha8tY
 const lockIconLight = require("heatshrink").decompress(atob("jEYwUBqtX///6tVqtfBoP1AoN8AoM9AoPwAoMPCwPAn/8gfVCwP1AQVcBAIOBmtcCgIaBAoMNAoNwApn8h5BB+E/AYIAD4BWDgYFvHYoAFA="))
 const lockIconDark = require("heatshrink").decompress(atob("jEYwUBqtUA4MVqtVqH//8FAoNDAoPBAoMPAoPwCwM/4ED/kVCwMFAQVTBAIOB4tTCgIaBAoPxAoNPApkD+BBBh/AKIs/HQIAB/gFvSZY"))
 
-
-
 function drawTextWithOutlineThickness(text, x, y, textColor, outlineColor, thickness) {
     g.setColor(outlineColor);
     for (let dx = -thickness; dx <= thickness; dx++) {
@@ -109,7 +107,7 @@ function drawWatchFace() {
         outlineColor,
         3
     );
-
+/*
     // Draw appropriate lock icon based on theme
     function drawLockIcon(isDarkMode) {
         g.reset();
@@ -122,7 +120,7 @@ function drawWatchFace() {
     // If screen locked and setting enabled, draw lock icon
     if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
         drawLockIcon(isDarkMode);
-    }
+    }*/
 }
 
 // Mark this app as a clock so launcher button works
