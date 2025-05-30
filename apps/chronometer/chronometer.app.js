@@ -107,7 +107,7 @@ function drawWatchFace() {
         outlineColor,
         3
     );
-/*
+
     // Draw appropriate lock icon based on theme
     function drawLockIcon(isDarkMode) {
         g.reset();
@@ -116,7 +116,7 @@ function drawWatchFace() {
             6, 4
         );
     }
-
+/*
     // If screen locked and setting enabled, draw lock icon
     if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
         drawLockIcon(isDarkMode);
