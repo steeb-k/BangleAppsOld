@@ -5,7 +5,6 @@
   // Default settings
   let defaults = {
     showWidgets: false,
-    theme: 'System',
     showLockIconWhenLocked: true
   };
 
