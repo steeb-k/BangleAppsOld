@@ -15,6 +15,7 @@
     storage.write(SETTINGS_FILE, settings);
   }
 
+
   E.showMenu({
     '': { 'title': 'Chronometer' },
     '< Back': back,

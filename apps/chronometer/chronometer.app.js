@@ -57,6 +57,13 @@ drawWatchFace();
 
 // Drawing the watch face
 function drawWatchFace() {
+    // Detect if we're in dark mode
+    let isDarkMode = g.theme.bg < 0x7FFF;
+
+    // Dark mode colors for text
+    let textColor = isDarkMode ? 0xFFFF : 0x0000;
+    let outlineColor = isDarkMode ? 0x0000 : 0xFFFFFF;
+
     let date = new Date();
     let hours = date.getHours();
     let minutes = date.getMinutes();
@@ -68,12 +75,7 @@ function drawWatchFace() {
 
     // Clear background and draw wallpaper
     g.clear();
-    let isDarkMode = g.theme.bg < 0x7FFF;
     g.drawImage(isDarkMode ? darkWallpaper : lightWallpaper, 0, 0);
-
-    // Dark mode colors for text
-    let textColor = isDarkMode ? 0xFFFF : 0x0000;
-    let outlineColor = isDarkMode ? 0x0000 : 0xFFFFFF;
 
     // Format time and date
     let timeStr = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
@@ -114,13 +116,13 @@ function drawWatchFace() {
     );
 
     // Draw appropriate lock icon based on theme
-function drawLockIcon(isDarkMode) {
-  g.drawImage(
-    isDarkMode ? lockIconDark : lockIconLight,
-    6, 4
-  );
-}
-
+    function drawLockIcon(isDarkMode) {
+        g.reset();
+        g.drawImage(
+            isDarkMode ? lockIconDark : lockIconLight,
+            6, 4
+        );
+    }
 
     // If screen locked and setting enabled, draw lock icon
     if (settings.showLockIconWhenLocked && Bangle.isLocked()) {
@@ -148,3 +150,5 @@ Bangle.on('lock', drawWatchFace);
 setInterval(drawWatchFace, 60000);
 drawWatchFace();
 
+Bangle.loadWidgets();
+require("widget_utils").swipeOn();
