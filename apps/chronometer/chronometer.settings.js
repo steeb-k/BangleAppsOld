@@ -6,7 +6,7 @@
   let defaults = {
     showWidgets: false,
     theme: 'System',
-    showLockIconWhenLocked: true
+    showLockIconWhenLocked: true,
   };
 
   // Load and merge saved settings
