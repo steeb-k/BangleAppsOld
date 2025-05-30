@@ -1,7 +1,7 @@
 { "id": "chronometer",
   "name": "Chronometer",
   "shortName":"Chronometer",
-  "version":"0.027",
+  "version":"0.028",
   "description": "A GNOME-inspired clock",
   "icon": "chronometer.icon.png",
   "type": "clock",
