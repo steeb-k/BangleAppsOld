@@ -1,5 +1,5 @@
 (function(back) {
-  const SETTINGS_FILE = "chronometer.settings.json";
+  const SETTINGS_FILE = "Chronometry.settings.json";
   const storage = require('Storage');
 
   // Default settings
@@ -19,7 +19,7 @@
   var wallpaper_options = ['Drool', 'Light', 'Dark'];
 
   E.showMenu({
-    '': { 'title': 'Chronometer' },
+    '': { 'title': 'Chronometry' },
     '< Back': back,
     'Show Widgets': {
       value: settings.showWidgets,

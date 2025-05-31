@@ -1,4 +1,4 @@
-# Chronometer
+# Chronometry
 
 A GNOME-inspired minimal clockface. Using `widget-utils`, widgets are hidden and can be seen by swiping down on the clock face.
 

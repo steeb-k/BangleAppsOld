@@ -1,5 +1,5 @@
 // Load settings from Storage or use defaults
-var settings = Object.assign({}, require('Storage').readJSON("chronometer.settings.json", true) || {});
+var settings = Object.assign({}, require('Storage').readJSON("Chronometry.settings.json", true) || {});
 
 // Cantarell fonts. Bold for the clock, small for the date.
 Graphics.prototype.setFontClock = function () {
