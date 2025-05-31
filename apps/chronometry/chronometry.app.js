@@ -136,7 +136,7 @@ Bangle.on('lock', drawWatchFace);
 setInterval(drawWatchFace, 60000);
 drawWatchFace();
 
-if (settings.disableWidgets) {
+if (!settings.disableWidgets) {
     // Blank out widget area
     Bangle.loadWidgets();
     for (let wd of WIDGETS) {wd.draw=()=>{};wd.area="";}
