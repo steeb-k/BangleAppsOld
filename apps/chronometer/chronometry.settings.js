@@ -1,5 +1,5 @@
 (function(back) {
-  const SETTINGS_FILE = "Chronometry.settings.json";
+  const SETTINGS_FILE = "chronometry.settings.json";
   const storage = require('Storage');
 
   // Default settings

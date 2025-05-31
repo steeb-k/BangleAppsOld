@@ -1,17 +1,17 @@
 { "id": "chronometry",
   "name": "Chronometry",
   "shortName":"Chronometry",
-  "version":"0.037",
+  "version":"0.038",
   "description": "A GNOME-inspired clock",
-  "icon": "Chronometry.icon.png",
+  "icon": "chronometry.icon.png",
   "type": "clock",
   "tags": "clock",
   "supports" : ["BANGLEJS2"],
   "readme": "README.md",
   "allow_emulator": true,
   "storage": [
-    {"name":"Chronometry.app.js","url":"Chronometry.app.js"},
-    {"name":"Chronometry.settings.js","url":"Chronometry.settings.js"},
-    {"name":"Chronometry.img","url":"app-icon.js","evaluate":true}
+    {"name":"chronometry.app.js","url":"chronometry.app.js"},
+    {"name":"chronometry.settings.js","url":"chronometry.settings.js"},
+    {"name":"chronometry.img","url":"app-icon.js","evaluate":true}
   ]
 }
