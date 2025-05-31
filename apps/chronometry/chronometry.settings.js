@@ -4,8 +4,8 @@
 
   // Default settings
   let defaults = {
-    showWidgets: true,
-    theme: 'System',
+    disableWidgets: false,
+    wallpaper: 'Drool',
     showLockIconWhenLocked: true,
   };
 
