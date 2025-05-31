@@ -135,9 +135,10 @@ Bangle.on('lock', drawWatchFace);
 setInterval(drawWatchFace, 60000);
 drawWatchFace();
 
-Bangle.loadWidgets();
-if (settings.showWidgets) {
-  Bangle.drawWidgets();
+
+if (settings.disableWidgets) {
+  // No widgets
 } else {
+  Bangle.loadWidgets();
   require("widget_utils").swipeOn(); // hide widgets, make them visible with a swipe
 }

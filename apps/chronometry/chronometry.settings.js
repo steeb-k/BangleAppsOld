@@ -4,7 +4,7 @@
 
   // Default settings
   let defaults = {
-    showWidgets: false,
+    showWidgets: true,
     theme: 'System',
     showLockIconWhenLocked: true,
   };
@@ -21,10 +21,10 @@
   E.showMenu({
     '': { 'title': 'Chronometry' },
     '< Back': back,
-    'Show Widgets': {
+    'Disable Widgets': {
       value: settings.showWidgets,
       onchange: () => {
-        settings.showWidgets = !settings.showWidgets;
+        settings.disableWidgets = !settings.disableWidgets;
         save();
       }
     },
