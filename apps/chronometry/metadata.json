@@ -1,7 +1,7 @@
 { "id": "chronometry",
   "name": "Chronometry",
   "shortName":"Chronometry",
-  "version":"0.038",
+  "version":"0.039",
   "description": "A GNOME-inspired clock",
   "icon": "chronometry.icon.png",
   "type": "clock",
