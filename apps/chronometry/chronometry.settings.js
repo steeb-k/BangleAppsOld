@@ -24,7 +24,7 @@
     'Disable Widgets': {
       value: settings.showWidgets,
       onchange: () => {
-        settings.disableWidgets = !settings.disableWidgets;
+        settings.disableWidgets = v;
         save();
       }
     },
