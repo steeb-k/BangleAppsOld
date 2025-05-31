@@ -121,9 +121,9 @@ function drawWatchFace() {
 // Mark this app as a clock so launcher button works
 Bangle.setUI({
     mode: 'clock',
-    remove: function () {
+    /*remove: function () {
         require('widget_utils').show();
-    }
+    }*/
 });
 
 // Redraw on lcdPower and lock events

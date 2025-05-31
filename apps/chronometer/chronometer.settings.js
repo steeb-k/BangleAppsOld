@@ -16,7 +16,7 @@
     storage.write(SETTINGS_FILE, settings);
   }
 
-  var theme_options = ['System', 'Light', 'Dark'];
+  var wallpaper_options = ['Drool', 'Light', 'Dark'];
 
   E.showMenu({
     '': { 'title': 'Chronometer' },
@@ -35,5 +35,15 @@
         save();
       }
     },
+     'Wallpaper': {
+      value: Math.max(0, wallpaper_options.indexOf(settings.theme)),
+      min: 0, max: wallpaper_options.length - 1,
+      format: v => wallpaper_options[v],
+      onchange: v => {
+        settings.wallpaper = wallpaper_options[v];
+        save();
+      }
+    },
+
   });
 });
