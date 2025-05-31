@@ -139,4 +139,4 @@ setInterval(drawWatchFace, 60000);
 drawWatchFace();
 
 Bangle.loadWidgets();
-require("widget_utils").swipeOn();
+/*require("widget_utils").swipeOn();*/
