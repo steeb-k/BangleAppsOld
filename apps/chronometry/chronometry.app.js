@@ -137,7 +137,9 @@ drawWatchFace();
 
 
 if (settings.disableWidgets) {
-  // No widgets
+    // Blank out widget area
+    Bangle.loadWidgets();
+    for (let wd of WIDGETS) {wd.draw=()=>{};wd.area="";}
 } else {
   Bangle.loadWidgets();
   require("widget_utils").swipeOn(); // hide widgets, make them visible with a swipe
