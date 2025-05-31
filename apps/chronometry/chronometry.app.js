@@ -1,5 +1,6 @@
 // Load settings from Storage or use defaults
-var settings = Object.assign({}, require('Storage').readJSON("chronometry.settings.json", true) || {});
+var settings = require("Storage").readJSON("chronometry.settings.json")|| {'disableWidgets': false};
+
 
 // Cantarell fonts. Bold for the clock, small for the date.
 Graphics.prototype.setFontClock = function () {
@@ -135,12 +136,11 @@ Bangle.on('lock', drawWatchFace);
 setInterval(drawWatchFace, 60000);
 drawWatchFace();
 
-
 if (settings.disableWidgets) {
     // Blank out widget area
     Bangle.loadWidgets();
     for (let wd of WIDGETS) {wd.draw=()=>{};wd.area="";}
 } else {
-  Bangle.loadWidgets();
-  require("widget_utils").swipeOn(); // hide widgets, make them visible with a swipe
+    Bangle.loadWidgets();
+    require("widget_utils").swipeOn(); // hide widgets, make them visible with a swipe
 }
