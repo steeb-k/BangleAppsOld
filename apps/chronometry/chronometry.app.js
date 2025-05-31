@@ -121,9 +121,6 @@ function drawWatchFace() {
 // Mark this app as a clock so launcher button works
 Bangle.setUI({
     mode: 'clock',
-    /*remove: function () {
-        require('widget_utils').show();
-    }*/
 });
 
 // Redraw on lcdPower and lock events
@@ -139,4 +136,8 @@ setInterval(drawWatchFace, 60000);
 drawWatchFace();
 
 Bangle.loadWidgets();
-/*require("widget_utils").swipeOn();*/
+if (settings.showWidgets) {
+  Bangle.drawWidgets();
+} else {
+  require("widget_utils").swipeOn(); // hide widgets, make them visible with a swipe
+}

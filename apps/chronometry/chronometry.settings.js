@@ -23,8 +23,8 @@
     '< Back': back,
     'Show Widgets': {
       value: settings.showWidgets,
-      onchange: v => {
-        settings.showWidgets = v;
+      onchange: () => {
+        settings.showWidgets = !settings.showWidgets;
         save();
       }
     },
